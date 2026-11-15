@@ -26,6 +26,7 @@ import { usePendingAlertCount } from '@/hooks/usePendingAlertCount';
 import { useSelectedFarm } from '@/hooks/useSelectedFarm';
 import { useHomeOverview } from '@/hooks/useHomeOverview';
 import { useNow } from '@/hooks/useNow';
+import { useWeatherForecast } from '@/hooks/useWeatherForecast';
 import { convertTemperature, firstName } from '@/lib/format';
 import { extraReasonsLabel, formatDecimal, pendingAlertsLabel, sensorsActiveLabel } from '@/lib/formatNumber';
 import { usePreferencesStore } from '@/stores/preferences';
@@ -55,6 +56,8 @@ export default function InicioScreen() {
   const overviewQuery = useHomeOverview(property?.id);
   const overview = overviewQuery.data;
   const pendingCount = usePendingAlertCount(property?.id);
+  // Warm the forecast cache at screen top so WeatherCard (same key) renders from cache.
+  useWeatherForecast(property?.center_lat, property?.center_lng);
   const [refreshing, setRefreshing] = useState(false);
 
   const handleRefresh = async () => {

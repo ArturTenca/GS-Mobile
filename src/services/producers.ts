@@ -4,15 +4,16 @@ import type { ProducerProfile } from '@/types/database';
 
 const MSG = 'Não foi possível carregar o perfil.';
 
-export async function getProducer(): Promise<ProducerProfile> {
+/**
+ * The userId comes from the local session (useAuth); RLS on producers remains the
+ * server-side barrier, so no network user lookup is needed here.
+ */
+export async function getProducer(userId: string): Promise<ProducerProfile> {
   try {
-    const { data: auth, error: authError } = await supabase.auth.getUser();
-    if (authError || !auth.user) throw new ServiceError(MSG, authError);
-
     const { data, error } = await supabase
       .from('producers')
       .select('id, full_name, onboarding_completed_at')
-      .eq('id', auth.user.id)
+      .eq('id', userId)
       .maybeSingle();
     if (error || !data) throw new ServiceError(MSG, error);
 
