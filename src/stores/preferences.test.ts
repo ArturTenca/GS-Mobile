@@ -3,19 +3,13 @@ import { usePreferencesStore } from '@/stores/preferences';
 jest.mock('expo-sqlite/localStorage/install', () => ({}));
 
 describe('usePreferencesStore', () => {
-  beforeEach(() =>
-    usePreferencesStore.setState({
-      theme: 'system',
-      tempUnit: 'c',
-      notifications: { critical: true, warning: true, daily: false },
-    }),
-  );
+  beforeEach(() => usePreferencesStore.setState({ theme: 'system', tempUnit: 'c' }));
 
   it('has the expected defaults', () => {
     const s = usePreferencesStore.getState();
     expect(s.theme).toBe('system');
     expect(s.tempUnit).toBe('c');
-    expect(s.notifications).toEqual({ critical: true, warning: true, daily: false });
+    expect('notifications' in s).toBe(false);
   });
 
   it('sets theme and unit', () => {
@@ -25,20 +19,26 @@ describe('usePreferencesStore', () => {
     expect(usePreferencesStore.getState().tempUnit).toBe('f');
   });
 
-  it('setNotification flips only that key', () => {
-    usePreferencesStore.getState().setNotification('daily', true);
-    expect(usePreferencesStore.getState().notifications).toEqual({
-      critical: true,
-      warning: true,
-      daily: true,
-    });
-  });
-
   it('persists only data fields under the expected name/version', () => {
     const opts = usePreferencesStore.persist.getOptions();
     expect(opts.name).toBe('agroalerta.preferences');
-    expect(opts.version).toBe(1);
+    expect(opts.version).toBe(2);
     const partial = opts.partialize!(usePreferencesStore.getState());
-    expect(Object.keys(partial as object).sort()).toEqual(['notifications', 'tempUnit', 'theme']);
+    expect(Object.keys(partial as object).sort()).toEqual(['tempUnit', 'theme']);
+  });
+
+  it('loads a v1 payload with notifications, keeping theme and unit', () => {
+    const opts = usePreferencesStore.persist.getOptions();
+    const merged = opts.merge!(
+      {
+        theme: 'dark',
+        tempUnit: 'f',
+        notifications: { critical: true, warning: false, daily: true },
+      },
+      usePreferencesStore.getState(),
+    ) as unknown as Record<string, unknown>;
+    expect(merged.theme).toBe('dark');
+    expect(merged.tempUnit).toBe('f');
+    expect('notifications' in merged).toBe(false);
   });
 });

@@ -4,6 +4,8 @@ import { ServiceError } from '@/services/ServiceError';
 import type { SensorType } from '@/types/database';
 
 const MSG_LOAD = 'Não foi possível carregar os limites.';
+const MSG_SAVE = 'Não foi possível salvar os limites. Verifique sua internet e tente de novo.';
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 interface ThresholdRow {
   sensor_type: SensorType;
@@ -32,5 +34,31 @@ export async function listThresholds(propertyId: string): Promise<ThresholdMap> 
   } catch (e) {
     if (e instanceof ServiceError) throw e;
     throw new ServiceError(MSG_LOAD, e);
+  }
+}
+
+export interface ThresholdSaveRow {
+  type: SensorType;
+  min: number | null;
+  max: number | null;
+}
+
+/** Upserts the per-type limits of a farm. Temperature is always Celsius. */
+export async function saveThresholds(propertyId: string, rows: ThresholdSaveRow[]): Promise<void> {
+  try {
+    if (!UUID_RE.test(propertyId)) throw new ServiceError(MSG_SAVE, new Error('invalid property id'));
+    const { error } = await supabase.from('thresholds').upsert(
+      rows.map((r) => ({
+        property_id: propertyId,
+        sensor_type: r.type,
+        min_value: r.min,
+        max_value: r.max,
+      })),
+      { onConflict: 'property_id,sensor_type' },
+    );
+    if (error) throw new ServiceError(MSG_SAVE, error);
+  } catch (e) {
+    if (e instanceof ServiceError) throw e;
+    throw new ServiceError(MSG_SAVE, e);
   }
 }

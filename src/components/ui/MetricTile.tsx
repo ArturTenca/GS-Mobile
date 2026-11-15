@@ -27,9 +27,11 @@ type MetricTileProps = {
   icon?: LucideIcon;
   context?: string;
   onPress?: () => void;
+  /** Stretch to the parent's height (equal-height rows). */
+  fill?: boolean;
 };
 
-export function MetricTile({ label, value, unit, status, icon: Icon, context, onPress }: MetricTileProps) {
+export function MetricTile({ label, value, unit, status, icon: Icon, context, onPress, fill = false }: MetricTileProps) {
   const { colors } = useTheme();
   const s = status ? STATUS[status] : null;
   const accessibilityLabel = `${label}: ${value}${unit ? ` ${unit}` : ''}${s ? `, ${s.word}` : ''}${
@@ -37,7 +39,7 @@ export function MetricTile({ label, value, unit, status, icon: Icon, context, on
   }`;
 
   const inner = (
-    <View style={styles.col}>
+    <View style={[styles.col, fill && styles.fill]}>
       <View style={styles.labelRow}>
         {Icon ? (
           <View importantForAccessibility="no" accessibilityElementsHidden>
@@ -75,14 +77,14 @@ export function MetricTile({ label, value, unit, status, icon: Icon, context, on
 
   if (onPress) {
     return (
-      <Card onPress={onPress} accessibilityLabel={accessibilityLabel}>
+      <Card onPress={onPress} accessibilityLabel={accessibilityLabel} style={fill && styles.fill}>
         {inner}
       </Card>
     );
   }
   return (
-    <View accessible accessibilityLabel={accessibilityLabel}>
-      <Card>{inner}</Card>
+    <View accessible accessibilityLabel={accessibilityLabel} style={fill && styles.fill}>
+      <Card style={fill && styles.fill}>{inner}</Card>
     </View>
   );
 }
@@ -92,5 +94,6 @@ const styles = StyleSheet.create({
   labelRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
   label: { flexShrink: 1 },
   valueRow: { flexDirection: 'row', alignItems: 'baseline', gap: spacing.xs },
-  badge: { marginTop: spacing.xs },
+  badge: { marginTop: 'auto', paddingTop: spacing.xs },
+  fill: { flex: 1 },
 });

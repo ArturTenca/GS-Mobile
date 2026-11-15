@@ -1,9 +1,11 @@
 import Constants from 'expo-constants';
 import { router } from 'expo-router';
-import { Bell, BellRing, CalendarDays, Cloud, Info, LogOut, Mail, Map as MapIcon, Plus, Tag } from 'lucide-react-native';
+import { Cloud, LogOut, Mail, Map as MapIcon, Plus, Tag } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
-import { Linking, Platform, StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 
+import { NotificationsSection } from '@/components/profile/NotificationsSection';
+import { ThresholdsSection } from '@/components/profile/ThresholdsSection';
 import { ScreenContainer } from '@/components/layout/ScreenContainer';
 import { ScreenHeader } from '@/components/layout/ScreenHeader';
 import { SettingsRow } from '@/components/settings/SettingsRow';
@@ -27,7 +29,7 @@ import { useSelectedFarm } from '@/hooks/useSelectedFarm';
 import { useUpdateProducerName } from '@/hooks/useUpdateProducerName';
 import { initials } from '@/lib/format';
 import { queryClient } from '@/lib/queryClient';
-import { usePreferencesStore, type NotificationKey, type TempUnit } from '@/stores/preferences';
+import { usePreferencesStore, type TempUnit } from '@/stores/preferences';
 import { spacing } from '@/theme/tokens';
 import type { Property } from '@/types/database';
 
@@ -44,12 +46,6 @@ const THEME_TABS: { id: ThemePreference; label: string }[] = [
 const UNIT_TABS: { id: TempUnit; label: string }[] = [
   { id: 'c', label: '°C' },
   { id: 'f', label: '°F' },
-];
-
-const NOTIFICATION_ROWS: { key: NotificationKey; label: string; description: string; icon: typeof Bell }[] = [
-  { key: 'critical', label: 'Alertas críticos', description: 'Quando algo precisa de ação agora.', icon: BellRing },
-  { key: 'warning', label: 'Avisos', description: 'Quando um sensor sai da faixa ideal.', icon: Bell },
-  { key: 'daily', label: 'Resumo diário', description: 'Um resumo da fazenda por dia.', icon: CalendarDays },
 ];
 
 function farmLabel(farm: Property): string {
@@ -75,8 +71,6 @@ export default function PerfilScreen() {
 
   const tempUnit = usePreferencesStore((s) => s.tempUnit);
   const setTempUnit = usePreferencesStore((s) => s.setTempUnit);
-  const notifications = usePreferencesStore((s) => s.notifications);
-  const setNotification = usePreferencesStore((s) => s.setNotification);
 
   // null = untouched (mirror the saved name).
   const [draft, setDraft] = useState<string | null>(null);
@@ -110,9 +104,6 @@ export default function PerfilScreen() {
         saveRow: { alignItems: 'flex-start' },
         box: { padding: spacing.lg, gap: spacing.md },
         boxGroup: { gap: spacing.xs },
-        footnote: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm },
-        footnoteText: { flex: 1, gap: spacing.xs },
-        footnoteIcon: { paddingTop: 2 },
         demoBox: { padding: spacing.lg, gap: spacing.sm, alignItems: 'flex-start' },
         logout: { marginTop: spacing.xl },
       }),
@@ -263,40 +254,11 @@ export default function PerfilScreen() {
             </View>
           </SettingsSection>
 
+          {/* 3b. Limites dos sensores */}
+          <ThresholdsSection />
+
           {/* 4. Notificações */}
-          <SettingsSection
-            title="Notificações"
-            footer={
-              <View style={styles.footnote}>
-                <View style={styles.footnoteIcon} accessibilityElementsHidden importantForAccessibility="no">
-                  <Info size={16} color={colors.textMuted} />
-                </View>
-                <View style={styles.footnoteText}>
-                  <Text variant="label" tone="muted">
-                    As preferências ficam salvas aqui. O envio de notificações chega em breve.
-                  </Text>
-                  {Platform.OS === 'web' ? (
-                    <Text variant="label" tone="muted">
-                      Notificações push só no app do celular.
-                    </Text>
-                  ) : null}
-                </View>
-              </View>
-            }
-          >
-            {NOTIFICATION_ROWS.map((row, i) => (
-              <SettingsRow
-                key={row.key}
-                icon={row.icon}
-                label={row.label}
-                description={row.description}
-                trailing="switch"
-                switchValue={notifications[row.key]}
-                onSwitchChange={(v) => setNotification(row.key, v)}
-                isLast={i === NOTIFICATION_ROWS.length - 1}
-              />
-            ))}
-          </SettingsSection>
+          <NotificationsSection />
 
           {/* 5. Unidades */}
           <SettingsSection title="Unidades">

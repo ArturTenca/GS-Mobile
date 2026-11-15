@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/features/theme/ThemeProvider';
+import { pendingAlertsLabel } from '@/lib/formatNumber';
 import { radius, spacing } from '@/theme/tokens';
 
 const TAB_ICONS: Record<string, LucideIcon> = {
@@ -62,6 +63,22 @@ export function TabBar({ state, descriptors, emitter, navigateToTab }: BottomTab
           borderRadius: radius.pill,
           alignItems: 'center',
           justifyContent: 'center',
+          position: 'relative',
+          overflow: 'visible',
+        },
+        badge: {
+          position: 'absolute',
+          top: -4,
+          right: 4,
+          height: 20,
+          minWidth: 20,
+          paddingHorizontal: 4,
+          borderRadius: radius.pill,
+          backgroundColor: colors.errorFill,
+          borderWidth: 2,
+          borderColor: colors.card,
+          alignItems: 'center',
+          justifyContent: 'center',
         },
         label: { letterSpacing: -0.2 },
         addCircle: {
@@ -95,9 +112,9 @@ export function TabBar({ state, descriptors, emitter, navigateToTab }: BottomTab
   const renderTab = (route: (typeof state.routes)[number], index: number) => {
     const Icon = TAB_ICONS[route.name];
     const isFocused = state.index === index;
-    // Reserved for Phase 4 (unread alerts badge); intentionally not rendered yet.
-    const _badge = descriptors[route.key]?.options.tabBarBadge;
-    void _badge;
+    const badge = descriptors[route.key]?.options.tabBarBadge;
+    const badgeText = typeof badge === 'number' ? (badge > 0 ? String(badge) : null) : typeof badge === 'string' && badge ? badge : null;
+    const badgeCount = typeof badge === 'number' ? badge : badgeText ? 10 : 0;
 
     const onPress = () => {
       const event = emitter.emit({
@@ -111,7 +128,8 @@ export function TabBar({ state, descriptors, emitter, navigateToTab }: BottomTab
     };
 
     const fg = isFocused ? colors.primaryText : colors.textMuted;
-    const name = TAB_NAMES[route.name] ?? route.name;
+    const baseName = TAB_NAMES[route.name] ?? route.name;
+    const name = route.name === 'alertas' && badgeCount > 0 ? `${baseName}, ${pendingAlertsLabel(badgeCount)}` : baseName;
 
     return (
       <Pressable
@@ -134,6 +152,13 @@ export function TabBar({ state, descriptors, emitter, navigateToTab }: BottomTab
               ]}
             >
               <Icon size={24} color={fg} strokeWidth={isFocused ? 2.5 : 2} />
+              {badgeText ? (
+                <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.badge}>
+                  <Text variant="caption" weight="semibold" numeric maxFontSizeMultiplier={1.2} style={{ color: colors.onPrimary }}>
+                    {badgeText}
+                  </Text>
+                </View>
+              ) : null}
             </View>
             <Text
               variant="caption"

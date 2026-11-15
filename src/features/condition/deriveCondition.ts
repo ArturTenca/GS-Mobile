@@ -16,7 +16,7 @@ import {
 } from './reasons';
 import type { ConditionAlert, ConditionInput, ConditionResult, Reason } from './types';
 
-const isPending = (a: ConditionAlert) => a.status === 'novo' || a.status === 'visualizado';
+export const isPending =(a: ConditionAlert) => a.status === 'novo' || a.status === 'visualizado';
 
 /**
  * Pure condition derivation (D-01..D-07). `now` is injected and every timestamp is

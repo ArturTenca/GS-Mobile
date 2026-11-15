@@ -1,15 +1,21 @@
 import {
   CircleCheck,
   CircleDot,
+  CloudLightning,
+  CloudRain,
+  Droplets,
   Eye,
   Info,
   OctagonAlert,
+  Sprout,
+  Thermometer,
   TriangleAlert,
+  WifiOff,
   type LucideIcon,
 } from 'lucide-react-native';
 
 import type { Colors } from '@/theme/tokens';
-import type { AlertSeverity, AlertStatus } from '@/types/database';
+import type { AlertCategory, AlertSeverity, AlertStatus } from '@/types/database';
 
 export type MetaBadgeVariant = 'default' | 'success' | 'warning' | 'error';
 
@@ -64,4 +70,56 @@ export function getSeverityLabel(severity: AlertSeverity): string {
 
 export function getStatusLabel(status: AlertStatus): string {
   return STATUS_META[status].label;
+}
+
+export interface CategoryMeta {
+  label: string;
+  icon: LucideIcon;
+  notificationDescription: string;
+}
+
+export const CATEGORY_META: Record<AlertCategory, CategoryMeta> = {
+  temperature_high: {
+    label: 'Temperatura alta',
+    icon: Thermometer,
+    notificationDescription: 'Quando a temperatura passa do limite máximo.',
+  },
+  soil_moisture_low: {
+    label: 'Solo seco',
+    icon: Sprout,
+    notificationDescription: 'Quando a umidade do solo fica abaixo do limite mínimo.',
+  },
+  air_humidity_high: {
+    label: 'Umidade do ar alta',
+    icon: Droplets,
+    notificationDescription: 'Quando a umidade do ar passa do limite máximo.',
+  },
+  heavy_rain: {
+    label: 'Chuva forte',
+    icon: CloudRain,
+    notificationDescription: 'Quando a previsão indica chance alta de chuva forte.',
+  },
+  unfavorable_weather: {
+    label: 'Clima desfavorável',
+    icon: CloudLightning,
+    notificationDescription: 'Quando o tempo pode prejudicar a lavoura.',
+  },
+  sensor_offline: {
+    label: 'Sensor sem sinal',
+    icon: WifiOff,
+    notificationDescription: 'Quando um sensor fica mais de 2 horas sem enviar dados.',
+  },
+};
+
+export const CATEGORY_ORDER: AlertCategory[] = [
+  'temperature_high',
+  'soil_moisture_low',
+  'air_humidity_high',
+  'heavy_rain',
+  'unfavorable_weather',
+  'sensor_offline',
+];
+
+export function getCategoryLabel(category: AlertCategory): string {
+  return CATEGORY_META[category].label;
 }

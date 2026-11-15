@@ -1,5 +1,5 @@
 import { useMemo, type ReactNode } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { useTheme } from '@/features/theme/ThemeProvider';
 import { radius, spacing } from '@/theme/tokens';
@@ -9,10 +9,11 @@ type CardProps = {
   padded?: boolean;
   onPress?: () => void;
   accessibilityLabel?: string;
+  style?: StyleProp<ViewStyle>;
   children: ReactNode;
 };
 
-export function Card({ variant = 'default', padded = true, onPress, accessibilityLabel, children }: CardProps) {
+export function Card({ variant = 'default', padded = true, onPress, accessibilityLabel, style, children }: CardProps) {
   const { colors } = useTheme();
   const base = useMemo(
     () =>
@@ -34,11 +35,11 @@ export function Card({ variant = 'default', padded = true, onPress, accessibilit
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel}
         onPress={onPress}
-        style={({ pressed }) => [base, pressed ? { backgroundColor: colors.background } : null]}
+        style={({ pressed }) => [base, style, pressed ? { backgroundColor: colors.background } : null]}
       >
         {children}
       </Pressable>
     );
   }
-  return <View style={base}>{children}</View>;
+  return <View style={[base, style]}>{children}</View>;
 }

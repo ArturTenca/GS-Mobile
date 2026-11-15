@@ -68,9 +68,11 @@ export function WeatherDayColumn({ day, index, unit }: WeatherDayColumnProps) {
     () =>
       StyleSheet.create({
         col: {
-          width: 60,
+          flex: 1,
+          minWidth: 0,
           minHeight: 112,
-          padding: spacing.sm,
+          paddingVertical: spacing.sm,
+          paddingHorizontal: 2,
           borderRadius: 12,
           alignItems: 'center',
           gap: spacing.xs,

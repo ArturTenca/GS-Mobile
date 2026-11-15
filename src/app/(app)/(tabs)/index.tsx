@@ -22,6 +22,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { deriveCondition } from '@/features/condition/deriveCondition';
 import { selectMetric } from '@/features/condition/selectMetric';
 import { useTheme } from '@/features/theme/ThemeProvider';
+import { usePendingAlertCount } from '@/hooks/usePendingAlertCount';
 import { useSelectedFarm } from '@/hooks/useSelectedFarm';
 import { useHomeOverview } from '@/hooks/useHomeOverview';
 import { useNow } from '@/hooks/useNow';
@@ -53,6 +54,7 @@ export default function InicioScreen() {
   const property = propertyQuery.farm;
   const overviewQuery = useHomeOverview(property?.id);
   const overview = overviewQuery.data;
+  const pendingCount = usePendingAlertCount(property?.id);
   const [refreshing, setRefreshing] = useState(false);
 
   const handleRefresh = async () => {
@@ -151,6 +153,17 @@ export default function InicioScreen() {
       : property.name
     : '';
 
+  const weatherPlace = property
+    ? [
+        property.neighborhood?.trim(),
+        property.city?.trim()
+          ? `${property.city.trim()}${property.state?.trim() ? `/${property.state.trim()}` : ''}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(', ') || null
+    : null;
+
   return (
     <>
       <ScreenHeader brand />
@@ -228,7 +241,11 @@ export default function InicioScreen() {
               <View style={styles.section}>
                 <SectionHeader title="Clima agora" />
                 {isFiniteCoord(property.center_lat) && isFiniteCoord(property.center_lng) ? (
-                  <WeatherCard farmCity={property.city} lat={property.center_lat} lng={property.center_lng} />
+                  <WeatherCard
+                    farmCity={weatherPlace}
+                    lat={property.center_lat}
+                    lng={property.center_lng}
+                  />
                 ) : overview.climate.status === 'ok' && overview.climate.data ? (
                   <>
                     <View style={styles.demoBadge}>
@@ -309,6 +326,7 @@ export default function InicioScreen() {
                               status={r.status}
                               context={r.context}
                               onPress={goMonitoring}
+                              fill={!stacked}
                             />
                           </View>
                         );
@@ -335,7 +353,7 @@ export default function InicioScreen() {
                 {pendingAlerts.length > 0 ? (
                   <>
                     <Text variant="label" tone="muted" numeric style={styles.countLine}>
-                      {pendingAlertsLabel(pendingAlerts.length)}
+                      {pendingAlertsLabel(pendingCount)}
                     </Text>
                     <Card padded={false}>
                       {pendingAlerts.slice(0, 3).map((a, i, arr) => (

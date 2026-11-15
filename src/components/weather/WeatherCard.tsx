@@ -1,6 +1,6 @@
 import { CircleAlert, CloudOff } from 'lucide-react-native';
 import { useMemo } from 'react';
-import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -57,8 +57,7 @@ export function WeatherCard({ farmCity, lat, lng }: WeatherCardProps) {
         stats: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
         stat: { flexGrow: 1, flexBasis: 88 },
         week: { marginTop: spacing.lg, gap: spacing.sm },
-        strip: { marginHorizontal: -spacing.lg },
-        stripContent: { flexDirection: 'row', gap: spacing.sm, paddingHorizontal: spacing.lg },
+        strip: { flexDirection: 'row', gap: 2 },
         footer: { marginTop: spacing.md },
         staleRow: { marginTop: spacing.md, flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
         staleText: { flex: 1 },
@@ -67,7 +66,7 @@ export function WeatherCard({ farmCity, lat, lng }: WeatherCardProps) {
         bar: { height: 16, borderRadius: 4, backgroundColor: colors.background },
         skelBars: { flex: 1, gap: spacing.sm },
         skelStrip: { flexDirection: 'row', gap: spacing.sm, overflow: 'hidden' },
-        skelDay: { width: 60, height: 112, borderRadius: 12, backgroundColor: colors.background },
+        skelDay: { flex: 1, height: 112, borderRadius: 12, backgroundColor: colors.background },
       }),
     [colors],
   );
@@ -116,7 +115,7 @@ export function WeatherCard({ farmCity, lat, lng }: WeatherCardProps) {
             ))}
           </View>
           <View style={[styles.week, styles.skelStrip]}>
-            {[0, 1, 2, 3, 4].map((i) => (
+            {[0, 1, 2, 3, 4, 5, 6].map((i) => (
               <View key={i} style={styles.skelDay} />
             ))}
           </View>
@@ -187,18 +186,11 @@ export function WeatherCard({ farmCity, lat, lng }: WeatherCardProps) {
         <Text variant="label" weight="semibold">
           Próximos dias
         </Text>
-        <ScrollView
-          horizontal
-          nestedScrollEnabled
-          showsHorizontalScrollIndicator={Platform.OS === 'web'}
-          style={styles.strip}
-          contentContainerStyle={styles.stripContent}
-          accessibilityLabel="Previsão dos próximos 7 dias"
-        >
+        <View style={styles.strip} accessibilityLabel="Previsão dos próximos 7 dias">
           {days.slice(0, 7).map((d, i) => (
             <WeatherDayColumn key={d.date} day={d} index={i} unit={tempUnit} />
           ))}
-        </ScrollView>
+        </View>
       </View>
 
       {stale ? (

@@ -176,8 +176,49 @@ Plans:
   4. Producer can change temperature and humidity (air/soil) thresholds in Perfil, and the property condition and sensor normal/abnormal state update to match
   5. With the app closed on a physical device, the producer gets a push notification for a new important alert, can turn notifications and alert categories on or off, and sees a clear message on web that push is not available there
 
-**Plans**: TBD
+**Plans**: 10 plans
+
+Plans:
+**Wave 1**
+
+- [x] 04-01-PLAN.md — Migration 008: alert evaluator, triggers, notification prefs, push trigger, setup_completo regen
+- [x] 04-02-PLAN.md — Alertas list: filters, category meta, listAlerts, full AlertRow
+- [x] 04-03-PLAN.md — Perfil thresholds editor (validator, save, section)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [x] 04-04-PLAN.md — Alert detail: visualizado on open, resolve, reading evidence
+- [x] 04-05-PLAN.md — Tab badge + Início pending count from one hook
+- [x] 04-06-PLAN.md — [BLOCKING] Apply 008 in SQL editor + probe + evaluator check
+- [x] 04-08-PLAN.md — push-alert Edge Function source + tested logic
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [x] 04-07-PLAN.md — Server-side notification prefs + Notificações section + web notice
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
+- [ ] 04-09-PLAN.md — Push client: package gate, registration, tap handling, app.json plugin
+
+**Wave 5** *(blocked on Wave 4 completion)*
+
+- [ ] 04-10-PLAN.md — Gate, Edge Function deploy, EAS dev build, device UAT, traceability
+
 **UI hint**: yes
+
+### Phase 04.1: Entrega da disciplina: requisitos do professor, README e desempenho (INSERTED)
+
+**Goal:** Deixar o repositório pronto para a entrega da disciplina em 19/11/2026 23h55 (README com Ficha da CitizenTech, instruções, prints e vídeo; critérios do professor auditados; app leve e rápido com antes/depois medido).
+**Requirements**: D-01..D-10 (CONTEXT.md; sem IDs em REQUIREMENTS.md)
+**Depends on:** Phase 4
+**Plans:** 5 plans
+
+Plans:
+- [ ] 04.1-01-PLAN.md — Higiene do repositório (restaurar .env.example/009/tsconfig, limpar restos) e alvo de toque do Button sm
+- [ ] 04.1-02-PLAN.md — Performance de startup: baseline, fontes por peso, cascata de rede (producer/farms/clima)
+- [ ] 04.1-03-PLAN.md — Performance de bundle: imports de ícones lucide por arquivo e medição depois
+- [ ] 04.1-04-PLAN.md — README pt-BR (Ficha, como rodar, aderência), roteiro do vídeo e checklist de acessibilidade
+- [ ] 04.1-05-PLAN.md — Checkpoint humano: prints, link do vídeo, Ficha e gate final de entrega
 
 ### Phase 5: Análises, Propriedade & Perfil
 
@@ -205,5 +246,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. App Shell, Auth & Demo Farm | 7/7 | Complete   | 2026-11-12 |
 | 2. Onboarding & Início | 5/6 | In Progress|  |
 | 3. AgroVigia Monitoring & Histórico | 0/TBD | Not started | - |
-| 4. AgroAlerta Alerts, Thresholds & Push | 0/TBD | Not started | - |
+| 4. AgroAlerta Alerts, Thresholds & Push | 8/10 | In Progress|  |
 | 5. Análises, Propriedade & Perfil | 0/TBD | Not started | - |

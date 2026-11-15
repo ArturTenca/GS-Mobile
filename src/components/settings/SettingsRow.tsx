@@ -19,6 +19,8 @@ type SettingsRowProps = {
   onSwitchChange?: (value: boolean) => void;
   stateLabels?: { on: string; off: string };
   isLast?: boolean;
+  /** Dims the row and blocks interaction (e.g. category switches while the master is off). */
+  disabled?: boolean;
   /** Allow selecting the value text (e.g. e-mail). */
   valueSelectable?: boolean;
 };
@@ -36,6 +38,7 @@ export function SettingsRow({
   onSwitchChange,
   stateLabels = DEFAULT_STATE_LABELS,
   isLast = false,
+  disabled = false,
   valueSelectable = false,
 }: SettingsRowProps) {
   const { colors } = useTheme();
@@ -56,6 +59,7 @@ export function SettingsRow({
         value: { flexShrink: 1, maxWidth: '55%', textAlign: 'right' },
         trailing: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
         switchWrap: { pointerEvents: 'none' },
+        disabled: { opacity: 0.5 },
       }),
     [colors, isLast],
   );
@@ -102,6 +106,7 @@ export function SettingsRow({
               value={switchValue}
               trackColor={{ true: colors.primary, false: colors.border }}
               thumbColor={switchValue ? colors.onPrimary : colors.card}
+              disabled={disabled}
               accessible={false}
             />
           </View>
@@ -114,11 +119,16 @@ export function SettingsRow({
     return (
       <Pressable
         accessibilityRole="switch"
-        accessibilityState={{ checked: switchValue }}
+        accessibilityState={{ checked: switchValue, disabled }}
+        disabled={disabled}
         accessibilityLabel={description ? `${label}, ${description}` : label}
         accessibilityValue={{ text: stateText }}
-        onPress={() => onSwitchChange?.(!switchValue)}
-        style={({ pressed }) => [styles.row, pressed ? { backgroundColor: colors.background } : null]}
+        onPress={disabled ? undefined : () => onSwitchChange?.(!switchValue)}
+        style={({ pressed }) => [
+          styles.row,
+          disabled ? styles.disabled : null,
+          pressed && !disabled ? { backgroundColor: colors.background } : null,
+        ]}
       >
         {content}
       </Pressable>
