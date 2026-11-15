@@ -1,4 +1,6 @@
-import { Info, OctagonAlert, TriangleAlert } from 'lucide-react-native';
+import Info from 'lucide-react-native/icons/info';
+import OctagonAlert from 'lucide-react-native/icons/octagon-alert';
+import TriangleAlert from 'lucide-react-native/icons/triangle-alert';
 import { StyleSheet, View } from 'react-native';
 
 import { CATEGORY_META, CATEGORY_ORDER } from '@/components/alerts/alertMeta';

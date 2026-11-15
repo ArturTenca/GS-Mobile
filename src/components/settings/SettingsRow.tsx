@@ -1,4 +1,6 @@
-import { ChevronRight, ExternalLink, type LucideIcon } from 'lucide-react-native';
+import ChevronRight from 'lucide-react-native/icons/chevron-right';
+import ExternalLink from 'lucide-react-native/icons/external-link';
+import type { LucideIcon } from 'lucide-react-native';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, Switch, View } from 'react-native';
 

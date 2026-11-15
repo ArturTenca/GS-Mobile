@@ -1,5 +1,11 @@
 import { useRouter } from 'expo-router';
-import { CircleCheck, Droplets, LandPlot, MapPin, Radio, Sprout, Thermometer } from 'lucide-react-native';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import Droplets from 'lucide-react-native/icons/droplets';
+import LandPlot from 'lucide-react-native/icons/land-plot';
+import MapPin from 'lucide-react-native/icons/map-pin';
+import Radio from 'lucide-react-native/icons/radio';
+import Sprout from 'lucide-react-native/icons/sprout';
+import Thermometer from 'lucide-react-native/icons/thermometer';
 import { useMemo, useState } from 'react';
 import { PixelRatio, StyleSheet, useWindowDimensions, View } from 'react-native';
 

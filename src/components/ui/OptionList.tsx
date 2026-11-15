@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react-native';
+import Check from 'lucide-react-native/icons/check';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 

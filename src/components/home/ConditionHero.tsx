@@ -1,4 +1,9 @@
-import { CircleCheck, Clock, OctagonAlert, RefreshCw, TriangleAlert, type LucideIcon } from 'lucide-react-native';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import Clock from 'lucide-react-native/icons/clock';
+import OctagonAlert from 'lucide-react-native/icons/octagon-alert';
+import RefreshCw from 'lucide-react-native/icons/refresh-cw';
+import TriangleAlert from 'lucide-react-native/icons/triangle-alert';
+import type { LucideIcon } from 'lucide-react-native';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

@@ -1,4 +1,10 @@
-import { ChartLine, CircleCheck, Droplets, Sprout, Thermometer, TriangleAlert, type LucideIcon } from 'lucide-react-native';
+import ChartLine from 'lucide-react-native/icons/chart-line';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import Droplets from 'lucide-react-native/icons/droplets';
+import Sprout from 'lucide-react-native/icons/sprout';
+import Thermometer from 'lucide-react-native/icons/thermometer';
+import TriangleAlert from 'lucide-react-native/icons/triangle-alert';
+import type { LucideIcon } from 'lucide-react-native';
 import { memo, useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

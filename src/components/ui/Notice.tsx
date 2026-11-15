@@ -1,4 +1,6 @@
-import { CircleAlert, CircleCheck, TriangleAlert } from 'lucide-react-native';
+import CircleAlert from 'lucide-react-native/icons/circle-alert';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import TriangleAlert from 'lucide-react-native/icons/triangle-alert';
 import { useEffect, useMemo } from 'react';
 import { AccessibilityInfo, Platform, StyleSheet, View } from 'react-native';
 

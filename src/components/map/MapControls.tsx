@@ -1,4 +1,6 @@
-import { Crosshair, Minus, Plus } from 'lucide-react-native';
+import Crosshair from 'lucide-react-native/icons/crosshair';
+import Minus from 'lucide-react-native/icons/minus';
+import Plus from 'lucide-react-native/icons/plus';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 

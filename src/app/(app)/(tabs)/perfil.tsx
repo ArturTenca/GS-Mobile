@@ -1,6 +1,11 @@
 import Constants from 'expo-constants';
 import { router } from 'expo-router';
-import { Cloud, LogOut, Mail, Map as MapIcon, Plus, Tag } from 'lucide-react-native';
+import Cloud from 'lucide-react-native/icons/cloud';
+import LogOut from 'lucide-react-native/icons/log-out';
+import Mail from 'lucide-react-native/icons/mail';
+import MapIcon from 'lucide-react-native/icons/map';
+import Plus from 'lucide-react-native/icons/plus';
+import Tag from 'lucide-react-native/icons/tag';
 import { useMemo, useState } from 'react';
 import { Linking, StyleSheet, View } from 'react-native';
 

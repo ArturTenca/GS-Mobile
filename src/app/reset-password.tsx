@@ -1,6 +1,7 @@
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
-import { CircleCheck, TriangleAlert } from 'lucide-react-native';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import TriangleAlert from 'lucide-react-native/icons/triangle-alert';
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

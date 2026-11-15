@@ -1,4 +1,6 @@
-import { CircleAlert, Eye, EyeOff } from 'lucide-react-native';
+import CircleAlert from 'lucide-react-native/icons/circle-alert';
+import Eye from 'lucide-react-native/icons/eye';
+import EyeOff from 'lucide-react-native/icons/eye-off';
 import { forwardRef, useMemo, useState, type ComponentRef } from 'react';
 import { Platform, Pressable, StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 

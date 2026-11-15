@@ -1,4 +1,8 @@
-import { CircleCheck, FlaskConical, OctagonAlert, TriangleAlert, type LucideIcon } from 'lucide-react-native';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import FlaskConical from 'lucide-react-native/icons/flask-conical';
+import OctagonAlert from 'lucide-react-native/icons/octagon-alert';
+import TriangleAlert from 'lucide-react-native/icons/triangle-alert';
+import type { LucideIcon } from 'lucide-react-native';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

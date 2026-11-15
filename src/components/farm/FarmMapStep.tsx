@@ -1,4 +1,5 @@
-import { Eraser, Undo2 } from 'lucide-react-native';
+import Eraser from 'lucide-react-native/icons/eraser';
+import Undo2 from 'lucide-react-native/icons/undo-2';
 import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 

@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react-native';
+import ArrowLeft from 'lucide-react-native/icons/arrow-left';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 

@@ -1,4 +1,5 @@
-import { LandPlot, Pencil } from 'lucide-react-native';
+import LandPlot from 'lucide-react-native/icons/land-plot';
+import Pencil from 'lucide-react-native/icons/pencil';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

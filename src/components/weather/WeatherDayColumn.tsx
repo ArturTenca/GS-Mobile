@@ -1,14 +1,12 @@
-import {
-  Cloud,
-  CloudDrizzle,
-  CloudFog,
-  CloudLightning,
-  CloudRain,
-  CloudSnow,
-  CloudSun,
-  Droplet,
-  Sun,
-} from 'lucide-react-native';
+import Cloud from 'lucide-react-native/icons/cloud';
+import CloudDrizzle from 'lucide-react-native/icons/cloud-drizzle';
+import CloudFog from 'lucide-react-native/icons/cloud-fog';
+import CloudLightning from 'lucide-react-native/icons/cloud-lightning';
+import CloudRain from 'lucide-react-native/icons/cloud-rain';
+import CloudSnow from 'lucide-react-native/icons/cloud-snow';
+import CloudSun from 'lucide-react-native/icons/cloud-sun';
+import Droplet from 'lucide-react-native/icons/droplet';
+import Sun from 'lucide-react-native/icons/sun';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

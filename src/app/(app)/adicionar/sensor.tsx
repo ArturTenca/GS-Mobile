@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
-import { LandPlot } from 'lucide-react-native';
+import LandPlot from 'lucide-react-native/icons/land-plot';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 

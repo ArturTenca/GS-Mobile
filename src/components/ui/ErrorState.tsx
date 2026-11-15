@@ -1,4 +1,4 @@
-import { CloudOff } from 'lucide-react-native';
+import CloudOff from 'lucide-react-native/icons/cloud-off';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

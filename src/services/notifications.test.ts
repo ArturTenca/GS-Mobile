@@ -1,7 +1,19 @@
 import { getNotificationPrefs, saveNotificationPrefs } from '@/services/notifications';
 import { ServiceError } from '@/services/ServiceError';
 
-jest.mock('lucide-react-native', () => ({}));
+// lucide icons are ESM (.mjs) subpath imports; stub each one used by alertMeta.
+jest.mock('lucide-react-native/icons/circle-check', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/circle-dot', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/cloud-lightning', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/cloud-rain', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/droplets', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/eye', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/info', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/octagon-alert', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/sprout', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/thermometer', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/triangle-alert', () => ({ __esModule: true, default: () => null }));
+jest.mock('lucide-react-native/icons/wifi-off', () => ({ __esModule: true, default: () => null }));
 
 const mockMaybeSingle = jest.fn();
 const mockSingle = jest.fn();

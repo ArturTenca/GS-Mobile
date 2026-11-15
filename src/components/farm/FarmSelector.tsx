@@ -1,4 +1,6 @@
-import { ChevronDown, MapPin, Plus } from 'lucide-react-native';
+import ChevronDown from 'lucide-react-native/icons/chevron-down';
+import MapPin from 'lucide-react-native/icons/map-pin';
+import Plus from 'lucide-react-native/icons/plus';
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 

@@ -1,5 +1,10 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Activity, BellOff, CircleCheck, Clock, ListChecks, MapPin } from 'lucide-react-native';
+import Activity from 'lucide-react-native/icons/activity';
+import BellOff from 'lucide-react-native/icons/bell-off';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import Clock from 'lucide-react-native/icons/clock';
+import ListChecks from 'lucide-react-native/icons/list-checks';
+import MapPin from 'lucide-react-native/icons/map-pin';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 

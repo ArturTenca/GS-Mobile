@@ -1,10 +1,8 @@
-import {
-  Cloud,
-  CloudLightning,
-  CloudRain,
-  CloudSun,
-  Sun,
-} from 'lucide-react-native';
+import Cloud from 'lucide-react-native/icons/cloud';
+import CloudLightning from 'lucide-react-native/icons/cloud-lightning';
+import CloudRain from 'lucide-react-native/icons/cloud-rain';
+import CloudSun from 'lucide-react-native/icons/cloud-sun';
+import Sun from 'lucide-react-native/icons/sun';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

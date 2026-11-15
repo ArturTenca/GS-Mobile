@@ -1,4 +1,5 @@
-import { ChevronRight, ListChecks } from 'lucide-react-native';
+import ChevronRight from 'lucide-react-native/icons/chevron-right';
+import ListChecks from 'lucide-react-native/icons/list-checks';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
