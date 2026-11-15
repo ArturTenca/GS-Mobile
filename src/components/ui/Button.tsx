@@ -6,7 +6,12 @@ import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/features/theme/ThemeProvider';
 import { radius, spacing, touch } from '@/theme/tokens';
 
-type Variant = 'primary' | 'secondary' | 'danger' | 'ghost';
+const SM_VISUAL_HEIGHT = 40;
+const SM_SLOP = (touch.min - SM_VISUAL_HEIGHT) / 2;
+/** Keeps the compact visual (40dp) while the effective touch area stays >= touch.min (48dp). */
+const SM_HIT_SLOP = { top: SM_SLOP, bottom: SM_SLOP, left: SM_SLOP, right: SM_SLOP };
+
+type Variant ='primary' | 'secondary' | 'danger' | 'ghost';
 
 type ButtonProps = {
   variant?: Variant;
@@ -56,7 +61,7 @@ export function Button({
     () =>
       StyleSheet.create({
         base: {
-          minHeight: size === 'sm' ? 40 : touch.min,
+          minHeight: size === 'sm' ? SM_VISUAL_HEIGHT : touch.min,
           paddingHorizontal: iconOnly ? 0 : spacing.lg,
           minWidth: iconOnly ? touch.min : undefined,
           borderRadius: radius.button,
@@ -82,7 +87,7 @@ export function Button({
       accessibilityState={{ disabled: inactive, busy: loading }}
       disabled={inactive}
       onPress={onPress}
-      hitSlop={size === 'sm' ? { top: 4, bottom: 4 } : undefined}
+      hitSlop={size === 'sm' ? SM_HIT_SLOP : undefined}
       style={({ pressed }) => [
         styles.base,
         { backgroundColor: pressed ? palette.pressed : palette.bg },
