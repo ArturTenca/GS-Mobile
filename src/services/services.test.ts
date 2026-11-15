@@ -68,9 +68,8 @@ describe('getCurrentProperty', () => {
 
 describe('getProducer', () => {
   it('returns id and fullName', async () => {
-    mockGetUser.mockResolvedValue({ data: { user: { id: 'u1' } }, error: null });
     mockResults.producers = [{ data: { id: 'u1', full_name: 'Maria da Silva' }, error: null }];
-    await expect(getProducer()).resolves.toEqual({
+    await expect(getProducer('u1')).resolves.toEqual({
       id: 'u1',
       fullName: 'Maria da Silva',
       onboardingCompletedAt: null,
@@ -78,13 +77,19 @@ describe('getProducer', () => {
   });
 
   it('throws friendly error on failure', async () => {
-    mockGetUser.mockResolvedValue({ data: { user: { id: 'u1' } }, error: null });
     mockResults.producers = [{ data: null, error: { message: 'x' } }];
-    await expect(getProducer()).rejects.toThrow('Não foi possível carregar o perfil.');
+    await expect(getProducer('u1')).rejects.toThrow('Não foi possível carregar o perfil.');
   });
 
   it('throws friendly error on network exception', async () => {
-    mockGetUser.mockRejectedValue(new Error('network'));
-    await expect(getProducer()).rejects.toThrow('Não foi possível carregar o perfil.');
+    mockResults.producers = [{ error: 'throw' }];
+    await expect(getProducer('u1')).rejects.toThrow('Não foi possível carregar o perfil.');
+  });
+
+  it('does not call auth.getUser (no network round-trip)', async () => {
+    mockGetUser.mockClear();
+    mockResults.producers = [{ data: { id: 'u1', full_name: 'Maria' }, error: null }];
+    await getProducer('u1');
+    expect(mockGetUser).not.toHaveBeenCalled();
   });
 });

@@ -8,7 +8,8 @@ export function useProducer() {
   // Keys are scoped per user so a session swap can never render another owner's cache.
   return useQuery({
     queryKey: ['producer', userId],
-    queryFn: getProducer,
+    queryFn: () => getProducer(userId as string),
+    staleTime: 5 * 60_000,
     enabled: !!userId,
   });
 }
