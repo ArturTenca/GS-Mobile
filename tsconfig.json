@@ -13,12 +13,13 @@
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    "Projeto_entrega-main",
     "supabase/functions/*/index.ts"
   ]
 }
