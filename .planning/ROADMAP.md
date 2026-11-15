@@ -211,11 +211,11 @@ Plans:
 **Goal:** Deixar o repositório pronto para a entrega da disciplina em 19/11/2026 23h55 (README com Ficha da CitizenTech, instruções, prints e vídeo; critérios do professor auditados; app leve e rápido com antes/depois medido).
 **Requirements**: D-01..D-10 (CONTEXT.md; sem IDs em REQUIREMENTS.md)
 **Depends on:** Phase 4
-**Plans:** 5 plans
+**Plans:** 2/5 plans executed
 
 Plans:
-- [ ] 04.1-01-PLAN.md — Higiene do repositório (restaurar .env.example/009/tsconfig, limpar restos) e alvo de toque do Button sm
-- [ ] 04.1-02-PLAN.md — Performance de startup: baseline, fontes por peso, cascata de rede (producer/farms/clima)
+- [x] 04.1-01-PLAN.md — Higiene do repositório (restaurar .env.example/009/tsconfig, limpar restos) e alvo de toque do Button sm
+- [x] 04.1-02-PLAN.md — Performance de startup: baseline, fontes por peso, cascata de rede (producer/farms/clima)
 - [ ] 04.1-03-PLAN.md — Performance de bundle: imports de ícones lucide por arquivo e medição depois
 - [ ] 04.1-04-PLAN.md — README pt-BR (Ficha, como rodar, aderência), roteiro do vídeo e checklist de acessibilidade
 - [ ] 04.1-05-PLAN.md — Checkpoint humano: prints, link do vídeo, Ficha e gate final de entrega
