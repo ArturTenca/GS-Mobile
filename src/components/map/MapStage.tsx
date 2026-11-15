@@ -1,4 +1,4 @@
-import { CloudOff } from 'lucide-react-native';
+import CloudOff from 'lucide-react-native/icons/cloud-off';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, StyleSheet, View } from 'react-native';
 

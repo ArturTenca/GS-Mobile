@@ -1,4 +1,4 @@
-import { CircleCheck } from 'lucide-react-native';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
 import { useMemo, type ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 

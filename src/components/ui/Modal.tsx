@@ -1,4 +1,4 @@
-import { X } from 'lucide-react-native';
+import X from 'lucide-react-native/icons/x';
 import { useMemo, type ReactNode } from 'react';
 import { Platform, Modal as RNModal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 

@@ -1,4 +1,5 @@
-import { ChevronDown, CircleAlert } from 'lucide-react-native';
+import ChevronDown from 'lucide-react-native/icons/chevron-down';
+import CircleAlert from 'lucide-react-native/icons/circle-alert';
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 

@@ -1,5 +1,6 @@
 import { useFocusEffect, useRouter } from 'expo-router';
-import { LandPlot, Radio } from 'lucide-react-native';
+import LandPlot from 'lucide-react-native/icons/land-plot';
+import Radio from 'lucide-react-native/icons/radio';
 import { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 

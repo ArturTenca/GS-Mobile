@@ -1,4 +1,5 @@
-import { CircleAlert, CloudOff } from 'lucide-react-native';
+import CircleAlert from 'lucide-react-native/icons/circle-alert';
+import CloudOff from 'lucide-react-native/icons/cloud-off';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

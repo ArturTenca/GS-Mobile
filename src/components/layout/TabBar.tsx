@@ -1,6 +1,11 @@
 import { useRouter } from 'expo-router';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
-import { Activity, Bell, House, Plus, User, type LucideIcon } from 'lucide-react-native';
+import Activity from 'lucide-react-native/icons/activity';
+import Bell from 'lucide-react-native/icons/bell';
+import House from 'lucide-react-native/icons/house';
+import Plus from 'lucide-react-native/icons/plus';
+import User from 'lucide-react-native/icons/user';
+import type { LucideIcon } from 'lucide-react-native';
 import { useMemo } from 'react';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

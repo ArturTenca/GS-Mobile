@@ -1,5 +1,7 @@
 import { useFocusEffect, useRouter } from 'expo-router';
-import { CircleCheck, LandPlot, ListFilter } from 'lucide-react-native';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import LandPlot from 'lucide-react-native/icons/land-plot';
+import ListFilter from 'lucide-react-native/icons/list-filter';
 import { useCallback, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 

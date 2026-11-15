@@ -1,4 +1,6 @@
-import { BellRing, Info, Settings } from 'lucide-react-native';
+import BellRing from 'lucide-react-native/icons/bell-ring';
+import Info from 'lucide-react-native/icons/info';
+import Settings from 'lucide-react-native/icons/settings';
 import { useMemo } from 'react';
 import { Linking, Platform, StyleSheet, View } from 'react-native';
 

@@ -1,5 +1,8 @@
 import { useRouter } from 'expo-router';
-import { ChartLine, ChevronRight, LandPlot, Radio } from 'lucide-react-native';
+import ChartLine from 'lucide-react-native/icons/chart-line';
+import ChevronRight from 'lucide-react-native/icons/chevron-right';
+import LandPlot from 'lucide-react-native/icons/land-plot';
+import Radio from 'lucide-react-native/icons/radio';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

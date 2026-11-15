@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import { MailCheck } from 'lucide-react-native';
+import MailCheck from 'lucide-react-native/icons/mail-check';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

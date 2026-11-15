@@ -1,4 +1,5 @@
-import { Map as MapIcon, Satellite } from 'lucide-react-native';
+import MapIcon from 'lucide-react-native/icons/map';
+import Satellite from 'lucide-react-native/icons/satellite';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 

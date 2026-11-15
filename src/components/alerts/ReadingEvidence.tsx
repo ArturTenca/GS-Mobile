@@ -1,4 +1,6 @@
-import { ArrowDown, ArrowUp, WifiOff } from 'lucide-react-native';
+import ArrowDown from 'lucide-react-native/icons/arrow-down';
+import ArrowUp from 'lucide-react-native/icons/arrow-up';
+import WifiOff from 'lucide-react-native/icons/wifi-off';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 

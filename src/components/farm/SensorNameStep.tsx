@@ -1,4 +1,4 @@
-import { Pencil } from 'lucide-react-native';
+import Pencil from 'lucide-react-native/icons/pencil';
 import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 

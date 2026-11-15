@@ -1,18 +1,16 @@
-import {
-  CircleCheck,
-  CircleDot,
-  CloudLightning,
-  CloudRain,
-  Droplets,
-  Eye,
-  Info,
-  OctagonAlert,
-  Sprout,
-  Thermometer,
-  TriangleAlert,
-  WifiOff,
-  type LucideIcon,
-} from 'lucide-react-native';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import CircleDot from 'lucide-react-native/icons/circle-dot';
+import CloudLightning from 'lucide-react-native/icons/cloud-lightning';
+import CloudRain from 'lucide-react-native/icons/cloud-rain';
+import Droplets from 'lucide-react-native/icons/droplets';
+import Eye from 'lucide-react-native/icons/eye';
+import Info from 'lucide-react-native/icons/info';
+import OctagonAlert from 'lucide-react-native/icons/octagon-alert';
+import Sprout from 'lucide-react-native/icons/sprout';
+import Thermometer from 'lucide-react-native/icons/thermometer';
+import TriangleAlert from 'lucide-react-native/icons/triangle-alert';
+import WifiOff from 'lucide-react-native/icons/wifi-off';
+import type { LucideIcon } from 'lucide-react-native';
 
 import type { Colors } from '@/theme/tokens';
 import type { AlertCategory, AlertSeverity, AlertStatus } from '@/types/database';

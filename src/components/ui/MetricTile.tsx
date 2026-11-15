@@ -1,4 +1,7 @@
-import { CircleCheck, TriangleAlert, WifiOff, type LucideIcon } from 'lucide-react-native';
+import CircleCheck from 'lucide-react-native/icons/circle-check';
+import TriangleAlert from 'lucide-react-native/icons/triangle-alert';
+import WifiOff from 'lucide-react-native/icons/wifi-off';
+import type { LucideIcon } from 'lucide-react-native';
 import { StyleSheet, View } from 'react-native';
 
 import { Badge } from '@/components/ui/Badge';

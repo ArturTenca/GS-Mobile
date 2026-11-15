@@ -1,4 +1,7 @@
-import { Droplets, Sprout, Thermometer, type LucideIcon } from 'lucide-react-native';
+import Droplets from 'lucide-react-native/icons/droplets';
+import Sprout from 'lucide-react-native/icons/sprout';
+import Thermometer from 'lucide-react-native/icons/thermometer';
+import type { LucideIcon } from 'lucide-react-native';
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
