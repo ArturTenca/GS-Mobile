@@ -1,4 +1,12 @@
-import { COOLDOWN_MS, initialCooldown, isLocked, MAX_ATTEMPTS, recordFailure, remainingSeconds } from './loginCooldown';
+import {
+  COOLDOWN_MS,
+  initialCooldown,
+  isLocked,
+  MAX_ATTEMPTS,
+  recordFailure,
+  remainingSeconds,
+  shouldCountFailure,
+} from './loginCooldown';
 
 describe('loginCooldown', () => {
   it('constants', () => {
@@ -22,6 +30,12 @@ describe('loginCooldown', () => {
     const s = { failures: 0, lockedUntil: 31000 };
     expect(remainingSeconds(s, 1000)).toBe(30);
     expect(remainingSeconds(s, 30500)).toBe(1);
+  });
+  it('shouldCountFailure counts only invalid_credentials', () => {
+    expect(shouldCountFailure('invalid_credentials')).toBe(true);
+    expect(shouldCountFailure('over_request_rate_limit')).toBe(false);
+    expect(shouldCountFailure('email_not_confirmed')).toBe(false);
+    expect(shouldCountFailure(undefined)).toBe(false);
   });
   it('unlocks once now >= lockedUntil', () => {
     const s = { failures: 0, lockedUntil: 31000 };
