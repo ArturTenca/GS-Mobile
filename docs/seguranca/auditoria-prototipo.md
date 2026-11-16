@@ -1,6 +1,6 @@
 # Auditoria de taint do prototipo
 
-Gerado em 2026-11-16T21:47:12.453Z. Fluxos rastreados: 51 (bloqueados: 1, sanitizados: 50, inseguros: 0).
+Gerado em 2026-11-16T21:53:23.591Z. Fluxos rastreados: 56 (bloqueados: 1, sanitizados: 55, inseguros: 0).
 
 O rastreador estatico (`node scripts/taint-audit.mjs`) usa a API do compilador TypeScript sobre `src/`, propaga o dado da origem ate o destino e classifica cada fluxo. Valores reais nunca aparecem aqui: apenas arquivo, linha e nomes de simbolos.
 
@@ -51,18 +51,23 @@ O rastreador estatico (`node scripts/taint-audit.mjs`) usa a API do compilador T
 | T-037 | caught_error (src/services/readings.ts:46) -> service_error (src/services/readings.ts:48) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
 | T-038 | db_response (src/services/readings.ts:66) -> service_error (src/services/readings.ts:73) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
 | T-039 | caught_error (src/services/readings.ts:86) -> service_error (src/services/readings.ts:88) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-040 | db_response (src/services/sensors.ts:51) -> service_error (src/services/sensors.ts:56) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-041 | caught_error (src/services/sensors.ts:68) -> service_error (src/services/sensors.ts:70) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-042 | db_response (src/services/sensors.ts:77) -> service_error (src/services/sensors.ts:87) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-043 | db_response (src/services/sensors.ts:77) -> service_error (src/services/sensors.ts:88) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-044 | db_response (src/services/sensors.ts:77) -> service_error (src/services/sensors.ts:89) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-045 | caught_error (src/services/sensors.ts:93) -> service_error (src/services/sensors.ts:95) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-046 | db_response (src/services/thresholds.ts:24) -> service_error (src/services/thresholds.ts:28) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-047 | caught_error (src/services/thresholds.ts:34) -> service_error (src/services/thresholds.ts:36) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-048 | db_response (src/services/thresholds.ts:50) -> service_error (src/services/thresholds.ts:59) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-049 | caught_error (src/services/thresholds.ts:60) -> service_error (src/services/thresholds.ts:62) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
-| T-050 | geo_coords (src/services/weather.ts:104) -> fetch (src/services/weather.ts:120) | assertCoarseCoord | sanitized | `src/security/taint/taint.inaction.test.ts`: rounds weather coordinates and records a location event |
-| T-051 | caught_error (src/services/weather.ts:124) -> service_error (src/services/weather.ts:125) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-040 | db_response (src/services/security.ts:81) -> service_error (src/services/security.ts:88) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-041 | caught_error (src/services/security.ts:90) -> service_error (src/services/security.ts:92) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-042 | db_response (src/services/security.ts:111) -> service_error (src/services/security.ts:112) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-043 | caught_error (src/services/security.ts:114) -> service_error (src/services/security.ts:116) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-044 | caught_error (src/services/security.ts:158) -> service_error (src/services/security.ts:160) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-045 | db_response (src/services/sensors.ts:51) -> service_error (src/services/sensors.ts:56) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-046 | caught_error (src/services/sensors.ts:68) -> service_error (src/services/sensors.ts:70) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-047 | db_response (src/services/sensors.ts:77) -> service_error (src/services/sensors.ts:87) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-048 | db_response (src/services/sensors.ts:77) -> service_error (src/services/sensors.ts:88) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-049 | db_response (src/services/sensors.ts:77) -> service_error (src/services/sensors.ts:89) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-050 | caught_error (src/services/sensors.ts:93) -> service_error (src/services/sensors.ts:95) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-051 | db_response (src/services/thresholds.ts:24) -> service_error (src/services/thresholds.ts:28) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-052 | caught_error (src/services/thresholds.ts:34) -> service_error (src/services/thresholds.ts:36) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-053 | db_response (src/services/thresholds.ts:50) -> service_error (src/services/thresholds.ts:59) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-054 | caught_error (src/services/thresholds.ts:60) -> service_error (src/services/thresholds.ts:62) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
+| T-055 | geo_coords (src/services/weather.ts:104) -> fetch (src/services/weather.ts:120) | assertCoarseCoord | sanitized | `src/security/taint/taint.inaction.test.ts`: rounds weather coordinates and records a location event |
+| T-056 | caught_error (src/services/weather.ts:124) -> service_error (src/services/weather.ts:125) | ServiceError->sanitizeCause | sanitized | `src/security/taint/taint.inaction.test.ts`: strips ServiceError cause to name only |
 
 ## Em ação
 

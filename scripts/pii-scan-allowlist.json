@@ -3,5 +3,10 @@
     "file": "src/security/taint/taint.test.ts",
     "ruleId": "cpf",
     "reason": "Numero de CPF de exemplo, sequencial e publicamente conhecido, usado como entrada sintetica do teste de sanitizeCause; nao e dado real."
+  },
+  {
+    "file": "src/services/security.test.ts",
+    "ruleId": "cpf",
+    "reason": "CPF sequencial publicamente conhecido usado como texto sintetico de erro do banco para provar que recordSecurityEvents nao vaza a mensagem bruta; nao e dado real."
   }
 ]

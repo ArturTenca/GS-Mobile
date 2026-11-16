@@ -1,6 +1,6 @@
 # Relatorio do scanner de PII
 
-Gerado em 2026-11-16T21:50:11.695Z. Arquivos varridos: 285. Achados: 81 (informativos: 0). Criticos fora da allowlist: 0.
+Gerado em 2026-11-16T21:53:14.109Z. Arquivos varridos: 298. Achados: 86 (informativos: 0). Criticos fora da allowlist: 0.
 
 Este relatorio mostra apenas arquivo, linha, regra e previa mascarada. Nenhum valor original e gravado.
 
@@ -8,21 +8,21 @@ Este relatorio mostra apenas arquivo, linha, regra e previa mascarada. Nenhum va
 
 | Item | Achados |
 | --- | ---: |
-| contact | 30 |
-| address | 23 |
+| contact | 31 |
+| address | 24 |
 | health | 15 |
+| identity | 7 |
 | location | 6 |
-| identity | 4 |
 | credential | 3 |
 
 ### Por severidade
 
 | Item | Achados |
 | --- | ---: |
-| medium | 46 |
-| low | 25 |
+| medium | 47 |
+| low | 28 |
 | high | 9 |
-| critical | 1 |
+| critical | 2 |
 
 ### Por arquivo
 
@@ -34,6 +34,7 @@ Este relatorio mostra apenas arquivo, linha, regra e previa mascarada. Nenhum va
 | src/security/pii/engine.test.ts | 10 |
 | src/features/farm/validate.test.ts | 6 |
 | src/lib/security/fieldPolicies.test.ts | 3 |
+| src/services/security.test.ts | 3 |
 | docs/seguranca/README-cybersecurity.md | 1 |
 | src/components/farm/FarmFormStep.tsx | 1 |
 | src/features/auth/authLinks.test.ts | 1 |
@@ -42,8 +43,10 @@ Este relatorio mostra apenas arquivo, linha, regra e previa mascarada. Nenhum va
 | src/features/sensor/sensorFlow.test.ts | 1 |
 | src/lib/security/validate.ts | 1 |
 | src/lib/supabase.ts | 1 |
+| src/security/audit.test.ts | 1 |
 | src/security/pii/fixtures.ts | 1 |
 | src/security/pii/validators.test.ts | 1 |
+| src/security/score.test.ts | 1 |
 | src/security/taint/events.ts | 1 |
 | src/security/taint/pushParity.test.ts | 1 |
 | src/security/taint/taint.inaction.test.ts | 1 |

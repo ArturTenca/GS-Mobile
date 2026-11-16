@@ -1,10 +1,10 @@
 {
   "summary": {
-    "generatedAt": "2026-11-16T21:47:12.453Z",
-    "filesAnalyzed": 174,
-    "flows": 51,
+    "generatedAt": "2026-11-16T21:53:23.591Z",
+    "filesAnalyzed": 184,
+    "flows": 56,
     "blocked": 1,
-    "sanitized": 50,
+    "sanitized": 55,
     "unsafe": 0,
     "unsafeOpen": 0
   },
@@ -1379,6 +1379,178 @@
       "source": {
         "kind": "db_response",
         "label": "resposta do Supabase (data/error)",
+        "file": "src/services/security.ts",
+        "line": 81,
+        "symbol": "supabase"
+      },
+      "sink": {
+        "kind": "service_error",
+        "label": "new ServiceError(msg, cause)",
+        "file": "src/services/security.ts",
+        "line": 88,
+        "call": "ServiceError",
+        "container": "listSecurityEvents"
+      },
+      "path": [
+        "supabase",
+        "error",
+        "ServiceError->sanitizeCause"
+      ],
+      "guards": [
+        "ServiceError->sanitizeCause"
+      ],
+      "guard": "ServiceError->sanitizeCause",
+      "status": "sanitized",
+      "id": "T-040",
+      "evidence": [
+        {
+          "file": "src/security/taint/taint.inaction.test.ts",
+          "test": "strips ServiceError cause to name only"
+        }
+      ],
+      "baselined": false
+    },
+    {
+      "source": {
+        "kind": "caught_error",
+        "label": "excecao capturada (catch)",
+        "file": "src/services/security.ts",
+        "line": 90,
+        "symbol": "e"
+      },
+      "sink": {
+        "kind": "service_error",
+        "label": "new ServiceError(msg, cause)",
+        "file": "src/services/security.ts",
+        "line": 92,
+        "call": "ServiceError",
+        "container": "listSecurityEvents"
+      },
+      "path": [
+        "e",
+        "ServiceError->sanitizeCause"
+      ],
+      "guards": [
+        "ServiceError->sanitizeCause"
+      ],
+      "guard": "ServiceError->sanitizeCause",
+      "status": "sanitized",
+      "id": "T-041",
+      "evidence": [
+        {
+          "file": "src/security/taint/taint.inaction.test.ts",
+          "test": "strips ServiceError cause to name only"
+        }
+      ],
+      "baselined": false
+    },
+    {
+      "source": {
+        "kind": "db_response",
+        "label": "resposta do Supabase (data/error)",
+        "file": "src/services/security.ts",
+        "line": 111,
+        "symbol": "supabase"
+      },
+      "sink": {
+        "kind": "service_error",
+        "label": "new ServiceError(msg, cause)",
+        "file": "src/services/security.ts",
+        "line": 112,
+        "call": "ServiceError",
+        "container": "recordSecurityEvents"
+      },
+      "path": [
+        "supabase",
+        "error",
+        "ServiceError->sanitizeCause"
+      ],
+      "guards": [
+        "ServiceError->sanitizeCause"
+      ],
+      "guard": "ServiceError->sanitizeCause",
+      "status": "sanitized",
+      "id": "T-042",
+      "evidence": [
+        {
+          "file": "src/security/taint/taint.inaction.test.ts",
+          "test": "strips ServiceError cause to name only"
+        }
+      ],
+      "baselined": false
+    },
+    {
+      "source": {
+        "kind": "caught_error",
+        "label": "excecao capturada (catch)",
+        "file": "src/services/security.ts",
+        "line": 114,
+        "symbol": "e"
+      },
+      "sink": {
+        "kind": "service_error",
+        "label": "new ServiceError(msg, cause)",
+        "file": "src/services/security.ts",
+        "line": 116,
+        "call": "ServiceError",
+        "container": "recordSecurityEvents"
+      },
+      "path": [
+        "e",
+        "ServiceError->sanitizeCause"
+      ],
+      "guards": [
+        "ServiceError->sanitizeCause"
+      ],
+      "guard": "ServiceError->sanitizeCause",
+      "status": "sanitized",
+      "id": "T-043",
+      "evidence": [
+        {
+          "file": "src/security/taint/taint.inaction.test.ts",
+          "test": "strips ServiceError cause to name only"
+        }
+      ],
+      "baselined": false
+    },
+    {
+      "source": {
+        "kind": "caught_error",
+        "label": "excecao capturada (catch)",
+        "file": "src/services/security.ts",
+        "line": 158,
+        "symbol": "e"
+      },
+      "sink": {
+        "kind": "service_error",
+        "label": "new ServiceError(msg, cause)",
+        "file": "src/services/security.ts",
+        "line": 160,
+        "call": "ServiceError",
+        "container": "fetchAuditRows"
+      },
+      "path": [
+        "e",
+        "ServiceError->sanitizeCause"
+      ],
+      "guards": [
+        "ServiceError->sanitizeCause"
+      ],
+      "guard": "ServiceError->sanitizeCause",
+      "status": "sanitized",
+      "id": "T-044",
+      "evidence": [
+        {
+          "file": "src/security/taint/taint.inaction.test.ts",
+          "test": "strips ServiceError cause to name only"
+        }
+      ],
+      "baselined": false
+    },
+    {
+      "source": {
+        "kind": "db_response",
+        "label": "resposta do Supabase (data/error)",
         "file": "src/services/sensors.ts",
         "line": 51,
         "symbol": "supabase"
@@ -1401,7 +1573,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-040",
+      "id": "T-045",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1435,7 +1607,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-041",
+      "id": "T-046",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1470,7 +1642,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-042",
+      "id": "T-047",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1505,7 +1677,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-043",
+      "id": "T-048",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1540,7 +1712,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-044",
+      "id": "T-049",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1574,7 +1746,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-045",
+      "id": "T-050",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1609,7 +1781,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-046",
+      "id": "T-051",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1643,7 +1815,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-047",
+      "id": "T-052",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1678,7 +1850,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-048",
+      "id": "T-053",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1712,7 +1884,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-049",
+      "id": "T-054",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1747,7 +1919,7 @@
       ],
       "guard": "assertCoarseCoord",
       "status": "sanitized",
-      "id": "T-050",
+      "id": "T-055",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
@@ -1781,7 +1953,7 @@
       ],
       "guard": "ServiceError->sanitizeCause",
       "status": "sanitized",
-      "id": "T-051",
+      "id": "T-056",
       "evidence": [
         {
           "file": "src/security/taint/taint.inaction.test.ts",
