@@ -38,10 +38,15 @@ export function auditTextRows(rows: readonly AuditRow[]): SecurityEvent[] {
   return [...byFingerprint.values()];
 }
 
-type ExistingEvent = Pick<
-  SecurityEvent,
-  'ruleId' | 'category' | 'severity' | 'sink' | 'origin' | 'action' | 'fingerprint'
->;
+type ExistingEvent = {
+  ruleId: string;
+  category: string;
+  severity: string;
+  sink: string;
+  origin: string;
+  action: string;
+  fingerprint: string;
+};
 
 // Achados 'detected' em repouso que nao aparecem mais viram 'resolved'.
 export function reconcileResolved(
@@ -57,9 +62,9 @@ export function reconcileResolved(
     seen.add(e.fingerprint);
     out.push({
       ruleId: e.ruleId,
-      category: e.category,
-      severity: e.severity,
-      sink: e.sink,
+      category: e.category as SecurityEvent['category'],
+      severity: e.severity as SecurityEvent['severity'],
+      sink: e.sink as SecurityEvent['sink'],
       origin: e.origin,
       action: 'resolved',
       fingerprint: e.fingerprint,
