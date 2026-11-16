@@ -7,7 +7,7 @@ stopped_at: Phase 4 UI-SPEC approved
 last_updated: "2026-11-15T22:56:44.123Z"
 last_activity: 2026-11-15
 progress:
-  total_phases: 8
+  total_phases: 7
   completed_phases: 2
   total_plans: 48
   completed_plans: 43

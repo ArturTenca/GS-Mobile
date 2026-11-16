@@ -206,6 +206,16 @@ Plans:
 
 **UI hint**: yes
 
+### Phase 04.2: Cybersecurity: PII, taint analysis, remediacao com IA, dashboard Risco Cidadao e sanitizacao (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 04.2 to break down)
+
 ### Phase 04.1: Entrega da disciplina: requisitos do professor, README e desempenho (INSERTED)
 
 **Goal:** Deixar o repositório pronto para a entrega da disciplina em 19/11/2026 23h55 (README com Ficha da CitizenTech, instruções, prints e vídeo; critérios do professor auditados; app leve e rápido com antes/depois medido).
