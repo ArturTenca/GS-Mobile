@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useState } from 'react';
 
 export interface InFlightLock {
   /** Síncrono: true se adquiriu; false se já há uma requisição em andamento. */
@@ -22,7 +22,6 @@ export function createInFlightLock(): InFlightLock {
 
 /** Trava estável entre renders; evita duplo toque antes do estado `submitting` renderizar. */
 export function useInFlightLock(): InFlightLock {
-  const ref = useRef<InFlightLock | null>(null);
-  if (ref.current === null) ref.current = createInFlightLock();
-  return ref.current;
+  const [lock] = useState(createInFlightLock);
+  return lock;
 }
