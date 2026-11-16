@@ -2,10 +2,13 @@ import {
   buildMessage,
   chunk,
   extractAlertId,
+  redactForPush,
   shouldNotify,
   type AlertForPush,
   type PushPrefs,
 } from './logic';
+
+import { fakeEmail, fakeJwt, fakeSupabaseSecret, formatCpf, makeCpf, makeLuhn, makeRng } from '../../../src/security/pii/fixtures';
 
 const ID = '123e4567-e89b-12d3-a456-426614174000';
 
@@ -90,5 +93,34 @@ describe('chunk', () => {
   });
   it('returns empty for empty', () => {
     expect(chunk([], 100)).toEqual([]);
+  });
+});
+
+describe('push redaction (D-04)', () => {
+  const rng = makeRng(99);
+  const cpf = formatCpf(makeCpf(rng));
+  const card = makeLuhn(rng);
+
+  it('masks a phone in propertyName', () => {
+    const m = buildMessage({ token: 't', alert, propertyName: 'Sítio 11 99999-8888', placeName: 'S' });
+    expect(m.body).toContain('[telefone oculto]');
+    expect(m.body).not.toContain('99999');
+  });
+  it('masks a CPF in the alert title', () => {
+    const m = buildMessage({ token: 't', alert: { ...alert, title: `Alerta ${cpf}` }, propertyName: 'F', placeName: 'S' });
+    expect(m.title).toBe('Crítico: Alerta [documento oculto]');
+  });
+  it('masks e-mail and card', () => {
+    expect(redactForPush(`fale com ${fakeEmail()}`)).toBe('fale com [e-mail oculto]');
+    expect(redactForPush(`cartao ${card}`)).toBe('cartao [cartão oculto]');
+  });
+  it('masks secrets', () => {
+    expect(redactForPush(fakeJwt())).toBe('[segredo oculto]');
+    expect(redactForPush(fakeSupabaseSecret())).toBe('[segredo oculto]');
+    expect(redactForPush('sk-' + 'Zq8Lm2Xv9TrKp4Wd7NcHj3Bf6Ys1Ge5U')).toBe('[segredo oculto]');
+  });
+  it('leaves normal text untouched', () => {
+    expect(redactForPush('Umidade do solo baixa 23,5°C 80%')).toBe('Umidade do solo baixa 23,5°C 80%');
+    expect(redactForPush('111.111.111-11')).toBe('111.111.111-11');
   });
 });
