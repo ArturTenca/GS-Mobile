@@ -22,6 +22,24 @@ module.exports = [
     rules: { 'no-restricted-imports': ['error', supabaseRestriction] },
   },
   {
+    // Todo log passa por safeLog (src/security/taint/sinks.ts); filtros PostgREST nunca via template literal.
+    files: ['src/**/*.{ts,tsx}'],
+    rules: {
+      'no-console': 'error',
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'CallExpression[callee.property.name=/^(or|ilike|like|filter)$/] > TemplateLiteral',
+          message: 'Monte filtros PostgREST com metodos tipados, nunca com template literals.',
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/security/taint/sinks.ts'],
+    rules: { 'no-console': 'off' },
+  },
+  {
     files: [
       'src/services/**',
       'src/features/auth/**',

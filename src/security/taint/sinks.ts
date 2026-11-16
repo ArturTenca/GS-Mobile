@@ -90,9 +90,7 @@ function safeArg(arg: unknown): unknown {
 export function safeLog(level: LogLevel, message: string, ...args: unknown[]): void {
   const safe = args.map(safeArg);
   const text = redact(message);
-  /* eslint-disable no-console */
   console[level](text, ...safe);
-  /* eslint-enable no-console */
 }
 
 export function assertAllowedUrl(url: string, hosts: readonly string[]): URL {

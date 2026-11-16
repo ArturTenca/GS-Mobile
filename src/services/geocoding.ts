@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 
+import { TaintBlockedError, taint, unwrapFor } from '@/security/taint/sinks';
 import { ServiceError } from '@/services/ServiceError';
 
 // CEP lookup + geocoding chain (D-06): BrasilAPI v2 -> ViaCEP -> Nominatim.
@@ -121,10 +122,28 @@ function parseViaCep(data: unknown): Address | null {
   return { street: str(r.logradouro), neighborhood: str(r.bairro), city, state, lat: null, lng: null };
 }
 
+const NOMINATIM_ORIGINS: Record<string, string> = {
+  street: 'farm.street',
+  city: 'farm.city',
+  state: 'farm.state',
+  postalcode: 'farm.cep',
+};
+
 /** One Nominatim request at a time (policy), failures resolve to null. */
 function nominatim(params: Record<string, string>): Promise<{ lat: number; lng: number } | null> {
   const run = async (): Promise<{ lat: number; lng: number } | null> => {
-    const query = new URLSearchParams({ format: 'jsonv2', limit: '1', country: 'Brazil', ...params });
+    // Unico sink de texto do usuario para terceiros: cada valor passa pela guarda geocode_http.
+    const safe: Record<string, string> = {};
+    try {
+      for (const [key, value] of Object.entries(params)) {
+        const origin = NOMINATIM_ORIGINS[key] ?? `farm.${key}`;
+        safe[key] = unwrapFor('geocode_http', taint(value, 'user_input'), { origin });
+      }
+    } catch (e) {
+      if (e instanceof TaintBlockedError) return null;
+      throw e;
+    }
+    const query = new URLSearchParams({ format: 'jsonv2', limit: '1', country: 'Brazil', ...safe });
     const outcome = await fetchJson(`${GEOCODING_CONFIG.nominatim}?${query.toString()}`);
     if (outcome.kind !== 'ok' || !Array.isArray(outcome.data) || outcome.data.length === 0) return null;
     const first = asRecord(outcome.data[0]);

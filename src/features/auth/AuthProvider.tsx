@@ -14,6 +14,7 @@ import {
 import { AUTH_MESSAGES, isNetworkError, mapAuthError } from '@/features/auth/authErrors';
 import { clearUserScopedState } from '@/features/auth/sessionCleanup';
 import { queryClient } from '@/lib/queryClient';
+import { safeLog } from '@/security/taint/sinks';
 import {
   validateLoginCredentials,
   validateNewPassword,
@@ -53,14 +54,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const { data, error } = await supabase.auth.getSession();
         if (!mounted) return;
         if (error) {
-          console.error('Erro ao validar sessão');
+          safeLog('error', 'Erro ao validar sessão');
           setSession(null);
         } else {
           setSession(data.session);
         }
       } catch {
         if (!mounted) return;
-        console.error('Erro ao validar sessão');
+        safeLog('error', 'Erro ao validar sessão');
         setSession(null);
       } finally {
         if (mounted) setLoading(false);
@@ -80,7 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       subscription = authSubscription;
     } catch {
-      console.error('Erro ao observar sessão');
+      safeLog('error', 'Erro ao observar sessão');
     }
 
     return () => {
@@ -126,7 +127,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (error) return { error: mapAuthError(error) };
         if (!data.session) {
           // Developer hint only; the farmer sees a plain "check your e-mail" message.
-          console.warn(
+          safeLog(
+            'warn',
             '[auth] signUp returned no session: "Confirm email" is enabled in Supabase Auth (D-02 expects it off).',
           );
           return { error: null, notice: AUTH_MESSAGES.confirmEmailSent };
@@ -146,18 +148,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) {
-        console.error('Erro ao encerrar sessão');
+        safeLog('error', 'Erro ao encerrar sessão');
         dropLocal = true;
       }
     } catch {
-      console.error('Erro ao encerrar sessão');
+      safeLog('error', 'Erro ao encerrar sessão');
       dropLocal = true;
     }
     if (dropLocal) {
       try {
         await supabase.auth.signOut({ scope: 'local' });
       } catch {
-        console.error('Erro ao limpar sessão local');
+        safeLog('error', 'Erro ao limpar sessão local');
       }
     }
     const previousUserId = lastUserId.current;

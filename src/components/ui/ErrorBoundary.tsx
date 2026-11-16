@@ -3,6 +3,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { Platform } from 'react-native';
 
 import { DatabaseUnavailable } from '@/components/ui/DatabaseUnavailable';
+import { safeLog } from '@/security/taint/sinks';
 
 type ErrorBoundaryProps = { children: ReactNode };
 type ErrorBoundaryState = { hasError: boolean };
@@ -15,7 +16,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch() {
-    console.error('Erro inesperado na aplicação');
+    safeLog('error', 'Erro inesperado na aplicação');
     // Safety net: never leave the error screen hidden behind the native splash.
     try {
       SplashScreen.hide();
