@@ -1,4 +1,10 @@
-import { sanitizeEmailInput, sanitizePasswordInput, sanitizeTextField } from './sanitize';
+import {
+  sanitizeEmailInput,
+  sanitizeFreeText,
+  sanitizeLiveInput,
+  sanitizePasswordInput,
+  sanitizeTextField,
+} from './sanitize';
 import {
   validateLoginCredentials,
   validateNewPassword,
@@ -110,5 +116,21 @@ describe('validateNewPassword', () => {
   });
   it('accepts valid', () => {
     expect(validateNewPassword('Trator-7azul')).toEqual({ ok: true, password: 'Trator-7azul' });
+  });
+});
+
+describe('sanitizeFreeText / sanitizeLiveInput', () => {
+  it('strips angle brackets, invisibles and collapses whitespace', () => {
+    expect(sanitizeFreeText('  a <b>​  c‮ ', { max: 50 })).toBe('a b c');
+  });
+  it('normalizes to NFC', () => {
+    expect(sanitizeFreeText('João', { max: 50 })).toBe('João');
+  });
+  it('caps at max', () => {
+    expect(sanitizeFreeText('x'.repeat(30), { max: 10 })).toHaveLength(10);
+  });
+  it('live input keeps the trailing space', () => {
+    expect(sanitizeLiveInput('João ')).toBe('João ');
+    expect(sanitizeLiveInput('a<b>c')).toBe('abc');
   });
 });
