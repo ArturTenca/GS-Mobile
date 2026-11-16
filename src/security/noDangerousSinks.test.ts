@@ -1,7 +1,6 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, readdirSync, readFileSync, repoRoot, statSync } from './testFs';
 
-const SRC = join(__dirname, '..');
+const SRC = join(repoRoot(), 'src');
 const SINKS: [string, RegExp][] = [
   ['dangerouslySetInnerHTML', /dangerouslySetInnerHTML/],
   ['.innerHTML', /\.innerHTML/],
@@ -28,7 +27,7 @@ describe('dangerous sink audit', () => {
   });
 
   it.each(SINKS)('has no %s in src', (_label, re) => {
-    const hits = files.filter((f) => re.test(readFileSync(f, 'utf8')));
+    const hits = files.filter((f: string) => re.test(readFileSync(f, 'utf8')));
     expect(hits).toEqual([]);
   });
 });

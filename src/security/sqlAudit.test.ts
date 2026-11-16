@@ -1,7 +1,6 @@
-import { readdirSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, readdirSync, readFileSync, repoRoot } from './testFs';
 
-const DIR = join(__dirname, '..', '..', 'supabase', 'migrations');
+const DIR = join(repoRoot(), 'supabase', 'migrations');
 
 function stripComments(sql: string): string {
   return sql
@@ -24,7 +23,7 @@ function dynamicExecutes(sql: string): string[] {
   return out;
 }
 
-const files = readdirSync(DIR).filter((f) => f.endsWith('.sql'));
+const files = readdirSync(DIR).filter((f: string) => f.endsWith('.sql'));
 
 describe('dynamic SQL audit', () => {
   it('finds the migrations', () => {
@@ -53,7 +52,7 @@ describe('dynamic SQL audit', () => {
   });
 
   it('migration 010 has no dynamic-SQL execute', () => {
-    const f = files.find((n) => n.startsWith('010'));
+    const f = files.find((n: string) => n.startsWith('010'));
     expect(f).toBeDefined();
     expect(dynamicExecutes(readFileSync(join(DIR, f as string), 'utf8'))).toEqual([]);
   });
