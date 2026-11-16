@@ -10,6 +10,7 @@ import { useMemo, useState } from 'react';
 import { Linking, StyleSheet, View } from 'react-native';
 
 import { NotificationsSection } from '@/components/profile/NotificationsSection';
+import { SecuritySection } from '@/components/profile/SecuritySection';
 import { ThresholdsSection } from '@/components/profile/ThresholdsSection';
 import { ScreenContainer } from '@/components/layout/ScreenContainer';
 import { ScreenHeader } from '@/components/layout/ScreenHeader';
@@ -291,6 +292,7 @@ export default function PerfilScreen() {
               </Text>
             </View>
           </SettingsSection>
+          <SecuritySection />
 
           {/* 7. Sobre — map credits follow the OSM + Esri tiles actually in use. */}
           <SettingsSection title="Sobre">
