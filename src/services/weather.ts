@@ -1,3 +1,5 @@
+import { assertCoarseCoord } from '@/security/taint/sinks';
+
 import { ServiceError } from './ServiceError';
 
 /**
@@ -104,8 +106,8 @@ export async function getForecast(lat: number, lng: number): Promise<Forecast> {
     throw new ServiceError(ERROR_MESSAGE, new Error('invalid coordinates'));
   }
   const params = new URLSearchParams({
-    latitude: String(roundCoord(lat)),
-    longitude: String(roundCoord(lng)),
+    latitude: String(assertCoarseCoord(lat, 'weather.coords')),
+    longitude: String(assertCoarseCoord(lng, 'weather.coords')),
     current: CURRENT_FIELDS,
     daily: DAILY_FIELDS,
     timezone: 'auto',

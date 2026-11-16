@@ -50,14 +50,15 @@ describe('getCurrentProperty', () => {
     expect(mockRpc).not.toHaveBeenCalled();
   });
 
-  it('throws a friendly error when the query fails, keeping cause', async () => {
+  it('throws a friendly error when the query fails, keeping a sanitized cause', async () => {
     const raw = { message: 'secret db detail' };
     mockResults.properties = [{ data: null, error: raw }];
     const err = await getCurrentProperty().catch((e) => e);
     expect(err).toBeInstanceOf(ServiceError);
     expect(err.message).toBe('Não foi possível carregar a propriedade.');
     expect(err.message).not.toContain('secret');
-    expect(err.cause).toBe(raw);
+    expect(err.cause).toEqual({ name: 'Error' });
+    expect(JSON.stringify(err.cause)).not.toContain('secret');
   });
 
   it('maps thrown network exceptions to the friendly error', async () => {
