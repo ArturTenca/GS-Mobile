@@ -1,6 +1,7 @@
 import { sanitizeFreeText } from './sanitize';
 import { scan } from '@/security/pii/engine';
 import type { Category } from '@/security/pii/engine';
+import { recordEvent } from '@/security/taint/events';
 
 // A defesa contra SQL injection são as chamadas parametrizadas (supabase-js/RPC).
 // A allowlist abaixo é defesa em profundidade na borda do formulário.
@@ -36,7 +37,21 @@ export function validateField(field: FieldName, raw: string): FieldValidation {
   const p = FIELD_POLICIES[field];
   const value = sanitizeFreeText(raw, { max: Number.MAX_SAFE_INTEGER });
   if (value.length > p.max) return { ok: false, error: ERR_FIELD_LONG };
-  if (scan(value, { categories: p.blockCategories }).length > 0) return { ok: false, error: ERR_FIELD_PII };
+  const findings = scan(value, { categories: p.blockCategories });
+  if (findings.length > 0) {
+    // Evento de metadados (D-06): so previa mascarada, nunca o valor digitado.
+    const f = findings[0];
+    recordEvent({
+      ruleId: f.ruleId,
+      category: f.category,
+      severity: f.severity,
+      sink: 'db_write',
+      origin: `form.${field}`,
+      action: 'blocked',
+      preview: f.preview,
+    });
+    return { ok: false, error: ERR_FIELD_PII };
+  }
   if (!p.allow.test(value)) return { ok: false, error: ERR_FIELD_CHARS };
   return { ok: true, value };
 }

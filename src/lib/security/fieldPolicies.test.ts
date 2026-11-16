@@ -1,6 +1,7 @@
 import { formatCpf, makeCpf, makeRng } from '@/security/pii/fixtures';
 import { ERR_FIELD_CHARS, ERR_FIELD_PII, validateField } from './fieldPolicies';
 import type { FieldName } from './fieldPolicies';
+import { clearEvents, peekEvents } from '@/security/taint/events';
 
 const CPF = formatCpf(makeCpf(makeRng(7)));
 
@@ -64,5 +65,28 @@ describe('validateField', () => {
     const r = validateField('city', 'a'.repeat(81));
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.error).toMatch(/muito longo/);
+  });
+});
+
+describe('validateField security events', () => {
+  beforeEach(() => clearEvents());
+
+  it('records one blocked db_write event for PII, without the raw value', () => {
+    validateField('farmName', CPF);
+    const events = peekEvents();
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({
+      ruleId: 'cpf',
+      sink: 'db_write',
+      action: 'blocked',
+      origin: 'form.farmName',
+    });
+    expect(events[0].preview).not.toBe('');
+    expect(JSON.stringify(events[0])).not.toContain(CPF);
+  });
+
+  it('records nothing for valid input', () => {
+    validateField('farmName', 'Fazenda Boa Vista');
+    expect(peekEvents()).toEqual([]);
   });
 });
