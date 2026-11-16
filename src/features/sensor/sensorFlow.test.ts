@@ -63,3 +63,13 @@ describe('sensorFlow', () => {
     expect(coverageSummary(50)).toBe('Cobre cerca de 0,79 ha da fazenda');
   });
 });
+
+describe('validateSensorName security', () => {
+  it('rejects PII and script payloads', () => {
+    expect(validateSensorName('11 99999-8888')).toEqual({
+      valid: false,
+      error: 'Não coloque CPF, telefone ou outros dados pessoais neste campo.',
+    });
+    expect(validateSensorName('a=b')).toMatchObject({ valid: false });
+  });
+});

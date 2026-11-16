@@ -1,3 +1,4 @@
+import { validateField } from '@/lib/security/fieldPolicies';
 import { circleAreaHa, pointInPolygon, type LatLng } from '@/lib/geo';
 import type { SensorType } from '@/types/database';
 
@@ -34,7 +35,9 @@ export function validateSensorName(raw: string): NameValidation {
   const value = raw.trim();
   if (value.length === 0) return { valid: false, error: 'Informe o nome do sensor.' };
   if (value.length > MAX_NAME_LENGTH) return { valid: false, error: 'Nome muito longo.' };
-  return { valid: true, value };
+  const checked = validateField('sensorName', value);
+  if (!checked.ok) return { valid: false, error: checked.error };
+  return { valid: true, value: checked.value };
 }
 
 export function isPointAllowed(point: LatLng, ring: LatLng[]): boolean {

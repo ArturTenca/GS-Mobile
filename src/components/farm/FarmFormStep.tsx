@@ -5,6 +5,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input, type InputRef } from '@/components/ui/Input';
+import { sanitizeFreeText } from '@/lib/security/sanitize';
 import { Notice } from '@/components/ui/Notice';
 import { Select } from '@/components/ui/Select';
 import { Text } from '@/components/ui/Text';
@@ -69,10 +70,11 @@ export function FarmFormStep({
     setLooked(true);
     if (result?.found) {
       onChange({
-        city: result.city,
+        // Texto de API externa e fonte nao confiavel: higieniza antes do estado.
+        city: sanitizeFreeText(result.city, { max: 80 }),
         state: result.state,
-        street: result.street ?? '',
-        neighborhood: result.neighborhood ?? '',
+        street: sanitizeFreeText(result.street ?? '', { max: 160 }),
+        neighborhood: sanitizeFreeText(result.neighborhood ?? '', { max: 120 }),
       });
     }
     onLookupDone(cep, result);
@@ -130,6 +132,7 @@ export function FarmFormStep({
             placeholder="Ex.: Sítio Boa Vista"
             autoCapitalize="words"
             value={values.name}
+            maxLength={120}
             error={errors.name}
             editable={!isResolving}
             returnKeyType="next"
@@ -207,6 +210,7 @@ export function FarmFormStep({
                 ref={streetRef}
                 label="Endereço (opcional)"
                 value={values.street}
+                maxLength={160}
                 error={errors.street}
                 editable={!isResolving}
                 autoComplete="street-address"
@@ -216,6 +220,7 @@ export function FarmFormStep({
                 ref={neighborhoodRef}
                 label="Bairro ou localidade (opcional)"
                 value={values.neighborhood}
+                maxLength={120}
                 error={errors.neighborhood}
                 editable={!isResolving}
                 onChangeText={(neighborhood) => onChange({ neighborhood })}
@@ -224,6 +229,7 @@ export function FarmFormStep({
                 ref={cityRef}
                 label="Cidade"
                 value={values.city}
+                maxLength={80}
                 error={errors.city}
                 editable={!isResolving}
                 autoCapitalize="words"
@@ -246,6 +252,7 @@ export function FarmFormStep({
             placeholder="Ex.: Café"
             autoCapitalize="sentences"
             value={values.mainCrop}
+            maxLength={60}
             error={errors.mainCrop}
             editable={!isResolving}
             onChangeText={(mainCrop) => onChange({ mainCrop })}
