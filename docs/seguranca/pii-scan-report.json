@@ -1,0 +1,712 @@
+{
+  "summary": {
+    "generatedAt": "2026-11-16T21:50:11.695Z",
+    "filesScanned": 285,
+    "totalFindings": 81,
+    "informationalFindings": 0,
+    "criticalNotAllowlisted": 0,
+    "byCategory": {
+      "identity": 4,
+      "address": 23,
+      "contact": 30,
+      "credential": 3,
+      "health": 15,
+      "location": 6
+    },
+    "bySeverity": {
+      "low": 25,
+      "medium": 46,
+      "high": 9,
+      "critical": 1
+    }
+  },
+  "seed": [
+    {
+      "file": "supabase/migrations/003_demo_farm.sql",
+      "total": 0,
+      "bySeverity": {},
+      "critical": 0
+    },
+    {
+      "file": "supabase/migrations/007_demo_dataset.sql",
+      "total": 0,
+      "bySeverity": {},
+      "critical": 0
+    }
+  ],
+  "byFile": {
+    "docs/seguranca/README-cybersecurity.md": 1,
+    "src/components/farm/FarmFormStep.tsx": 1,
+    "src/features/auth/authLinks.test.ts": 1,
+    "src/features/farm/validate.test.ts": 6,
+    "src/features/farm/validate.ts": 1,
+    "src/features/profile/validateName.test.ts": 1,
+    "src/features/sensor/sensorFlow.test.ts": 1,
+    "src/lib/security/fieldPolicies.test.ts": 3,
+    "src/lib/security/security.test.ts": 20,
+    "src/lib/security/validate.ts": 1,
+    "src/lib/supabase.ts": 1,
+    "src/security/pii/engine.test.ts": 10,
+    "src/security/pii/fixtures.ts": 1,
+    "src/security/pii/rules.ts": 13,
+    "src/security/pii/validators.test.ts": 1,
+    "src/security/taint/events.ts": 1,
+    "src/security/taint/pushParity.test.ts": 1,
+    "src/security/taint/taint.inaction.test.ts": 1,
+    "src/security/taint/taint.test.ts": 1,
+    "src/services/farms.test.ts": 1,
+    "src/services/geocoding.test.ts": 12,
+    "src/services/weather.test.ts": 1,
+    "supabase/functions/push-alert/logic.test.ts": 1
+  },
+  "findings": [
+    {
+      "file": "docs/seguranca/README-cybersecurity.md",
+      "line": 43,
+      "ruleId": "cpf_masked",
+      "category": "identity",
+      "severity": "low",
+      "preview": "[REDACTED:cpf_masked]"
+    },
+    {
+      "file": "src/components/farm/FarmFormStep.tsx",
+      "line": 147,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/features/auth/authLinks.test.ts",
+      "line": 43,
+      "ruleId": "br_phone",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "(**) *****-7890"
+    },
+    {
+      "file": "src/features/farm/validate.test.ts",
+      "line": 5,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/features/farm/validate.test.ts",
+      "line": 18,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/features/farm/validate.test.ts",
+      "line": 19,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/features/farm/validate.test.ts",
+      "line": 20,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/features/farm/validate.test.ts",
+      "line": 65,
+      "ruleId": "br_phone",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "(**) *****-8888"
+    },
+    {
+      "file": "src/features/farm/validate.test.ts",
+      "line": 68,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/features/farm/validate.ts",
+      "line": 37,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/features/profile/validateName.test.ts",
+      "line": 21,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/features/sensor/sensorFlow.test.ts",
+      "line": 69,
+      "ruleId": "br_phone",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "(**) *****-8888"
+    },
+    {
+      "file": "src/lib/security/fieldPolicies.test.ts",
+      "line": 13,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/lib/security/fieldPolicies.test.ts",
+      "line": 35,
+      "ruleId": "br_phone",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "(**) *****-8888"
+    },
+    {
+      "file": "src/lib/security/fieldPolicies.test.ts",
+      "line": 36,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 17,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "u***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 17,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 34,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 40,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "A***@B***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 40,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 41,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 44,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 57,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@x***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 58,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "j***@x***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 61,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@x***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 68,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 71,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 81,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 88,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 89,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 92,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 99,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "A***@B***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 102,
+      "ruleId": "email",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "a***@b***.com"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 103,
+      "ruleId": "password_kv",
+      "category": "credential",
+      "severity": "high",
+      "preview": "[REDACTED:secret]"
+    },
+    {
+      "file": "src/lib/security/security.test.ts",
+      "line": 118,
+      "ruleId": "password_kv",
+      "category": "credential",
+      "severity": "high",
+      "preview": "[REDACTED:secret]"
+    },
+    {
+      "file": "src/lib/security/validate.ts",
+      "line": 31,
+      "ruleId": "br_phone",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "(**) *****-7890"
+    },
+    {
+      "file": "src/lib/supabase.ts",
+      "line": 69,
+      "ruleId": "password_kv",
+      "category": "credential",
+      "severity": "high",
+      "preview": "[REDACTED:secret]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 84,
+      "ruleId": "cpf_masked",
+      "category": "identity",
+      "severity": "low",
+      "preview": "[REDACTED:cpf_masked]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 116,
+      "ruleId": "rg",
+      "category": "identity",
+      "severity": "medium",
+      "preview": "[REDACTED:rg]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 120,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 121,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 123,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 162,
+      "ruleId": "cid10",
+      "category": "health",
+      "severity": "high",
+      "preview": "[REDACTED:cid10]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 163,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 173,
+      "ruleId": "geo_precise",
+      "category": "location",
+      "severity": "high",
+      "preview": "[REDACTED:geo_precise]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 174,
+      "ruleId": "geo_precise",
+      "category": "location",
+      "severity": "high",
+      "preview": "[REDACTED:geo_precise]"
+    },
+    {
+      "file": "src/security/pii/engine.test.ts",
+      "line": 183,
+      "ruleId": "geo_single",
+      "category": "location",
+      "severity": "medium",
+      "preview": "[REDACTED:geo_single]"
+    },
+    {
+      "file": "src/security/pii/fixtures.ts",
+      "line": 12,
+      "ruleId": "br_phone",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "(**) *****-7296"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 212,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/rules.ts",
+      "line": 220,
+      "ruleId": "health_keyword",
+      "category": "health",
+      "severity": "medium",
+      "preview": "[REDACTED:health_keyword]"
+    },
+    {
+      "file": "src/security/pii/validators.test.ts",
+      "line": 92,
+      "ruleId": "geo_precise",
+      "category": "location",
+      "severity": "high",
+      "preview": "[REDACTED:geo_precise]"
+    },
+    {
+      "file": "src/security/taint/events.ts",
+      "line": 37,
+      "ruleId": "br_phone",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "(**) *****-6261"
+    },
+    {
+      "file": "src/security/taint/pushParity.test.ts",
+      "line": 25,
+      "ruleId": "br_phone",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "(**) *****-8888"
+    },
+    {
+      "file": "src/security/taint/taint.inaction.test.ts",
+      "line": 63,
+      "ruleId": "geo_precise",
+      "category": "location",
+      "severity": "high",
+      "preview": "[REDACTED:geo_precise]"
+    },
+    {
+      "file": "src/security/taint/taint.test.ts",
+      "line": 201,
+      "ruleId": "cpf",
+      "category": "identity",
+      "severity": "critical",
+      "preview": "***.***.***-09"
+    },
+    {
+      "file": "src/services/farms.test.ts",
+      "line": 40,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 34,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 50,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 60,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 74,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 86,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 89,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 97,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 103,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 105,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 112,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 113,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/geocoding.test.ts",
+      "line": 126,
+      "ruleId": "cep",
+      "category": "address",
+      "severity": "low",
+      "preview": "[REDACTED:cep]"
+    },
+    {
+      "file": "src/services/weather.test.ts",
+      "line": 40,
+      "ruleId": "geo_precise",
+      "category": "location",
+      "severity": "high",
+      "preview": "[REDACTED:geo_precise]"
+    },
+    {
+      "file": "supabase/functions/push-alert/logic.test.ts",
+      "line": 105,
+      "ruleId": "br_phone",
+      "category": "contact",
+      "severity": "medium",
+      "preview": "(**) *****-8888"
+    }
+  ]
+}

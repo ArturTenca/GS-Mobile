@@ -1,0 +1,86 @@
+{
+  "items": [
+    {
+      "id": "E-01",
+      "label": "CPF digitado em Endereço é bloqueado antes do Nominatim",
+      "file": "src/security/taint/taint.inaction.test.ts",
+      "test": "blocks a CPF typed in Endereco before Nominatim",
+      "match": { "sink": "fetch", "source": "form_field" }
+    },
+    {
+      "id": "E-02",
+      "label": "E-mail é mascarado no console (safeLog)",
+      "file": "src/security/taint/taint.inaction.test.ts",
+      "test": "redacts e-mail in safeLog",
+      "match": { "sink": "console" }
+    },
+    {
+      "id": "E-03",
+      "label": "Causa do ServiceError é reduzida a nome/código",
+      "file": "src/security/taint/taint.inaction.test.ts",
+      "test": "strips ServiceError cause to name only",
+      "match": { "sink": "service_error" }
+    },
+    {
+      "id": "E-04",
+      "label": "Coordenadas do clima arredondadas a 2 casas decimais",
+      "file": "src/security/taint/taint.inaction.test.ts",
+      "test": "rounds weather coordinates and records a location event",
+      "match": { "sink": "fetch", "source": "geo_coords" }
+    },
+    {
+      "id": "E-05",
+      "label": "Prompt de LLM com PII é bloqueado e o evento guarda só prévia mascarada",
+      "file": "src/security/taint/taint.inaction.test.ts",
+      "test": "blocks LLM prompt with PII and records only a masked preview"
+    },
+    {
+      "id": "E-06",
+      "label": "Corpo de push é redigido e coincide com o motor de PII",
+      "file": "src/security/taint/pushParity.test.ts",
+      "test": "agree on every positive"
+    },
+    {
+      "id": "E-07",
+      "label": "Guarda de sink bloqueia/mascara conforme a política",
+      "file": "src/security/taint/taint.test.ts",
+      "test": "blocks a CPF going to geocode_http"
+    },
+    {
+      "id": "E-08",
+      "label": "Campos aceitos só com allowlist de caracteres",
+      "file": "src/lib/security/fieldPolicies.test.ts",
+      "test": "rejects "
+    },
+    {
+      "id": "E-09",
+      "label": "PII em campo de texto é rejeitada na entrada",
+      "file": "src/lib/security/fieldPolicies.test.ts",
+      "test": "blocks PII in"
+    },
+    {
+      "id": "E-10",
+      "label": "Nenhum sink HTML perigoso em src (dangerouslySetInnerHTML, innerHTML, eval...)",
+      "file": "src/security/noDangerousSinks.test.ts",
+      "test": "has no "
+    },
+    {
+      "id": "E-11",
+      "label": "Nenhum SQL dinâmico concatenado nas migrations",
+      "file": "src/security/sqlAudit.test.ts",
+      "test": "never concatenates into execute"
+    },
+    {
+      "id": "E-12",
+      "label": "Política CSP da web endurecida",
+      "file": "src/security/webCsp.test.ts",
+      "test": "is a single-line policy with the hardening directives"
+    },
+    {
+      "id": "E-13",
+      "label": "Varredor de PII encontra CPF, e-mail e JWT sem imprimir o valor bruto",
+      "file": "src/security/pii/cli.test.ts",
+      "test": "--self-test passa e nao imprime valores brutos"
+    }
+  ]
+}
