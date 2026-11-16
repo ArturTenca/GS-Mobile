@@ -1,2 +1,5 @@
 [functions.push-alert]
 verify_jwt = false
+
+[functions.explain-risk]
+verify_jwt = true
