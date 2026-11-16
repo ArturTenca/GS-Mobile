@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "file": "src/security/taint/taint.test.ts",
+    "ruleId": "cpf",
+    "reason": "Numero de CPF de exemplo, sequencial e publicamente conhecido, usado como entrada sintetica do teste de sanitizeCause; nao e dado real."
+  }
+]
