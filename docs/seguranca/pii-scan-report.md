@@ -1,6 +1,6 @@
 # Relatorio do scanner de PII
 
-Gerado em 2026-11-16T21:47:55.668Z. Arquivos varridos: 281. Achados: 80 (informativos: 0). Criticos fora da allowlist: 0.
+Gerado em 2026-11-16T21:50:11.695Z. Arquivos varridos: 285. Achados: 81 (informativos: 0). Criticos fora da allowlist: 0.
 
 Este relatorio mostra apenas arquivo, linha, regra e previa mascarada. Nenhum valor original e gravado.
 
@@ -12,15 +12,15 @@ Este relatorio mostra apenas arquivo, linha, regra e previa mascarada. Nenhum va
 | address | 23 |
 | health | 15 |
 | location | 6 |
+| identity | 4 |
 | credential | 3 |
-| identity | 3 |
 
 ### Por severidade
 
 | Item | Achados |
 | --- | ---: |
 | medium | 46 |
-| low | 24 |
+| low | 25 |
 | high | 9 |
 | critical | 1 |
 
@@ -34,6 +34,7 @@ Este relatorio mostra apenas arquivo, linha, regra e previa mascarada. Nenhum va
 | src/security/pii/engine.test.ts | 10 |
 | src/features/farm/validate.test.ts | 6 |
 | src/lib/security/fieldPolicies.test.ts | 3 |
+| docs/seguranca/README-cybersecurity.md | 1 |
 | src/components/farm/FarmFormStep.tsx | 1 |
 | src/features/auth/authLinks.test.ts | 1 |
 | src/features/farm/validate.ts | 1 |

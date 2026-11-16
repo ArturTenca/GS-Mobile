@@ -40,3 +40,6 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# ZIP de entrega (scripts/build-zip.mjs)
+dist-zip/
