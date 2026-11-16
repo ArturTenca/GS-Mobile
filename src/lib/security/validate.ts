@@ -1,4 +1,5 @@
 import { INPUT_LIMITS } from './limits';
+import { validateField } from './fieldPolicies';
 import { sanitizeTextField, stripControlCharacters } from './sanitize';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -85,13 +86,15 @@ export function validateSignup(name: string, email: string, password: string): S
   const n = sanitizeTextField(name, INPUT_LIMITS.NAME_MAX + 1).trim();
   if (!n) return { ok: false, field: 'name', error: 'Informe seu nome.' };
   if (n.length > INPUT_LIMITS.NAME_MAX) return { ok: false, field: 'name', error: 'Nome muito longo.' };
+  const nameCheck = validateField('name', n);
+  if (!nameCheck.ok) return { ok: false, field: 'name', error: nameCheck.error };
   const e = cleanEmail(email);
   if (!isValidEmailFormat(e)) return { ok: false, field: 'email', error: ERR_EMAIL };
   if (password.length > INPUT_LIMITS.PASSWORD_MAX) return { ok: false, field: 'password', error: ERR_LONG };
   if (password.length < INPUT_LIMITS.PASSWORD_MIN) return { ok: false, field: 'password', error: ERR_MIN };
   const strength = validatePasswordStrength(password, e);
   if (!strength.ok) return { ok: false, field: 'password', error: strength.error };
-  return { ok: true, name: n, email: e.toLowerCase(), password };
+  return { ok: true, name: nameCheck.value, email: e.toLowerCase(), password };
 }
 
 export function validateNewPassword(password: string): NewPasswordValidationResult {

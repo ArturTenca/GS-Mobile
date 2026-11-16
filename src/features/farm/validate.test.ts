@@ -58,3 +58,20 @@ describe('validateFarmForm', () => {
     expect(r.firstInvalid).toBe('state');
   });
 });
+
+describe('validateFarmForm security', () => {
+  const pii = 'Não coloque CPF, telefone ou outros dados pessoais neste campo.';
+  it('blocks a phone number in the farm name', () => {
+    expect(validateFarmForm({ ...ok, name: '11 99999-8888' }).errors.name).toBe(pii);
+  });
+  it('blocks e-mail in the street', () => {
+    expect(validateFarmForm({ ...ok, street: 'a@b.com' }).errors.street).toBe(pii);
+  });
+  it('rejects markup/SQL characters', () => {
+    const r = validateFarmForm({ ...ok, mainCrop: "x'; DROP TABLE a;--" });
+    expect(r.errors.mainCrop).toBe('Use apenas letras, números e pontuação comum.');
+  });
+  it('accepts real-world names', () => {
+    expect(validateFarmForm({ ...ok, name: 'Sítio São José – Km 12', street: 'R. 7 de Setembro, nº 45' }).valid).toBe(true);
+  });
+});

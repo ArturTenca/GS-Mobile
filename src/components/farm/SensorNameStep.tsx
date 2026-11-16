@@ -86,7 +86,7 @@ export function SensorNameStep({
             }}
             error={nameError}
             editable={!isSaving}
-            maxLength={140}
+            maxLength={120}
             returnKeyType="done"
           />
           {rows.map(([label, value]) => (

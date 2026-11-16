@@ -5,6 +5,7 @@ import { forwardRef, useMemo, useState, type ComponentRef } from 'react';
 import { Platform, Pressable, StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 
 import { Text } from '@/components/ui/Text';
+import { sanitizeLiveInput, stripControlCharacters } from '@/lib/security/sanitize';
 import { useTheme } from '@/features/theme/ThemeProvider';
 import { fonts, radius, spacing, touch } from '@/theme/tokens';
 
@@ -14,16 +15,29 @@ type InputProps = Omit<TextInputProps, 'style'> & {
   label: string;
   error?: string | null;
   helper?: string;
+  /** Higienização ao digitar. Padrão: 'none' para senha/teclado numérico, senão 'single-line'. */
+  sanitize?: 'single-line' | 'email' | 'none';
 };
 
+const NUMERIC_KEYBOARDS = new Set(['numeric', 'number-pad', 'decimal-pad', 'phone-pad']);
+
 export const Input = forwardRef<InputRef, InputProps>(function Input(
-  { label, error, helper, secureTextEntry, editable = true, onFocus, onBlur, ...rest },
+  { label, error, helper, secureTextEntry, editable = true, onFocus, onBlur, sanitize, onChangeText, ...rest },
   ref,
 ) {
   const { colors } = useTheme();
   const [focused, setFocused] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const isSecret = Boolean(secureTextEntry);
+  const mode =
+    sanitize ?? (isSecret || (rest.keyboardType && NUMERIC_KEYBOARDS.has(rest.keyboardType)) ? 'none' : 'single-line');
+  const handleChangeText = onChangeText
+    ? (text: string) => {
+        if (mode === 'single-line') onChangeText(sanitizeLiveInput(text));
+        else if (mode === 'email') onChangeText(stripControlCharacters(text).replace(/\s+/g, ''));
+        else onChangeText(text);
+      }
+    : undefined;
 
   const styles = useMemo(
     () =>
@@ -63,6 +77,7 @@ export const Input = forwardRef<InputRef, InputProps>(function Input(
         <TextInput
           ref={ref}
           {...rest}
+          onChangeText={handleChangeText}
           editable={editable}
           secureTextEntry={isSecret && !revealed}
           accessibilityLabel={label}

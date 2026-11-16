@@ -203,6 +203,7 @@ export default function AuthScreen() {
       onChangeText={(t) => setEmail(stripControlCharacters(t))}
       error={fieldErrors.email}
       keyboardType="email-address"
+      sanitize="email"
       autoCapitalize="none"
       autoCorrect={false}
       autoComplete="email"

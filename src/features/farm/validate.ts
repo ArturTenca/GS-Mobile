@@ -1,4 +1,5 @@
 import { UF_CODES } from '@/features/farm/ufs';
+import { validateField, type FieldName } from '@/lib/security/fieldPolicies';
 
 export type FarmField = 'name' | 'cep' | 'city' | 'state' | 'street' | 'neighborhood' | 'mainCrop';
 
@@ -39,6 +40,13 @@ export function maskCep(value: string): string {
   return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
 }
 
+/** Allowlist + PII check for a non-empty value; returns the pt-BR error or null. */
+function fieldError(field: FieldName, value: string): string | null {
+  if (value.length === 0) return null;
+  const r = validateField(field, value);
+  return r.ok ? null : r.error;
+}
+
 export function validateFarmForm(values: FarmFormValues): FarmFormValidation {
   const name = values.name.trim();
   const city = values.city.trim();
@@ -62,6 +70,19 @@ export function validateFarmForm(values: FarmFormValues): FarmFormValidation {
   if (street.length > STREET_MAX) errors.street = 'Endereço muito longo.';
   if (neighborhood.length > NEIGHBORHOOD_MAX) errors.neighborhood = 'Bairro muito longo.';
   if (mainCrop.length > CROP_MAX) errors.mainCrop = 'Cultura muito longa.';
+
+  const checks: [FarmField, FieldName, string][] = [
+    ['name', 'farmName', name],
+    ['city', 'city', city],
+    ['street', 'street', street],
+    ['neighborhood', 'neighborhood', neighborhood],
+    ['mainCrop', 'mainCrop', mainCrop],
+  ];
+  for (const [key, field, value] of checks) {
+    if (errors[key]) continue;
+    const err = fieldError(field, value);
+    if (err) errors[key] = err;
+  }
 
   const firstInvalid = FARM_FIELD_ORDER.find((f) => errors[f]) ?? null;
   return { valid: firstInvalid === null, errors, firstInvalid };
