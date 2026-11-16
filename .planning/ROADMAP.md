@@ -211,14 +211,14 @@ Plans:
 **Goal:** Entregar o modulo de Cybersecurity ate 19/11/2026: motor de PII (CPF, saude, senhas e outros), taint analysis (runtime + estatica) com bloqueio de vazamentos, remediacao com IA (Claude, pt-BR) via Edge Function, dashboard "Risco Cidadao" no app, sanitizacao de todas as entradas (SQLi/XSS), correcao dos bugs de login e pacote ZIP com evidencias.
 **Requirements**: D-01..D-12 (CONTEXT.md; sem IDs em REQUIREMENTS.md)
 **Depends on:** Phase 4
-**Plans:** 3/8 plans executed
+**Plans:** 5/8 plans executed
 
 Plans:
 - [x] 04.2-01-PLAN.md — Spike de imports .ts + motor de PII (regras, validadores, redacao) + CLI pii-scan (Wave 1)
 - [x] 04.2-02-PLAN.md — Correcao dos bugs de login A1-A10 com testes de regressao (Wave 1)
 - [x] 04.2-03-PLAN.md — Migration 010 (security_events, RPC, CHECKs), setup_completo, funcao explain-risk (Claude) e templates (Wave 1)
-- [ ] 04.2-04-PLAN.md — Taint em runtime: politica por sink, guards, eventos, fiacao em geocoding/weather/ServiceError/push + evidencias "em acao" (Wave 2)
-- [ ] 04.2-05-PLAN.md — Sanitizacao central de entradas (Input, politicas por campo), auditorias XSS/SQL e CSP web (Wave 2)
+- [x] 04.2-04-PLAN.md — Taint em runtime: politica por sink, guards, eventos, fiacao em geocoding/weather/ServiceError/push + evidencias "em acao" (Wave 2)
+- [x] 04.2-05-PLAN.md — Sanitizacao central de entradas (Input, politicas por campo), auditorias XSS/SQL e CSP web (Wave 2)
 - [ ] 04.2-06-PLAN.md — Taint estatico (compiler API), relatorios de auditoria, ZIP e documentacao docs/seguranca (Wave 3)
 - [ ] 04.2-07-PLAN.md — Dashboard Risco Cidadao: score, auditoria, servico/hooks, tela e entrada no Perfil (Wave 3)
 - [ ] 04.2-08-PLAN.md — Gate final + checkpoints humanos: aplicar 010, deploy explain-risk/segredo/Auth, prints e ZIP (Wave 4)
