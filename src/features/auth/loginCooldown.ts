@@ -14,6 +14,11 @@ export function recordFailure(state: CooldownState, now: number): CooldownState 
   return { failures, lockedUntil: state.lockedUntil };
 }
 
+/** Somente credenciais inválidas contam para o bloqueio; offline/5xx/rate limit não. */
+export function shouldCountFailure(code?: string): boolean {
+  return code === 'invalid_credentials';
+}
+
 export function isLocked(state: CooldownState, now: number): boolean {
   return state.lockedUntil !== null && now < state.lockedUntil;
 }

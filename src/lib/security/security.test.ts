@@ -1,5 +1,10 @@
 import { sanitizeEmailInput, sanitizePasswordInput, sanitizeTextField } from './sanitize';
-import { validateLoginCredentials, validateNewPassword, validateSignup } from './validate';
+import {
+  validateLoginCredentials,
+  validateNewPassword,
+  validatePasswordStrength,
+  validateSignup,
+} from './validate';
 
 describe('sanitize', () => {
   it('strips control chars and trims e-mail', () => {
@@ -25,30 +30,71 @@ describe('validateLoginCredentials', () => {
   it('rejects bad format', () => {
     expect(validateLoginCredentials('abc', 'x')).toEqual({ ok: false, error: 'Informe um e-mail válido.' });
   });
-  it('lowercases e-mail and accepts short password', () => {
+  it('lowercases e-mail and accepts weak existing password', () => {
     expect(validateLoginCredentials(' A@B.com ', '123')).toEqual({ ok: true, email: 'a@b.com', password: '123' });
+    expect(validateLoginCredentials('a@b.com', '12345678').ok).toBe(true);
+  });
+  it('rejects overlong password and e-mail instead of truncating', () => {
+    expect(validateLoginCredentials('a@b.com', 'x'.repeat(129))).toEqual({ ok: false, error: 'Senha muito longa.' });
+    expect(validateLoginCredentials(`${'a'.repeat(250)}@b.com`, 'x')).toEqual({
+      ok: false,
+      error: 'Informe um e-mail válido.',
+    });
+  });
+});
+
+describe('validatePasswordStrength', () => {
+  it.each(['12345678', 'senha123', 'abcdefgh', 'brasil123'])('rejects %s', (p) => {
+    expect(validatePasswordStrength(p).ok).toBe(false);
+  });
+  it('rejects password containing the e-mail local part', () => {
+    expect(validatePasswordStrength('ABCD1234x', 'abcd1234@x.com').ok).toBe(false);
+    expect(validatePasswordStrength('Meujoao9', 'joao@x.com').ok).toBe(false);
+  });
+  it('accepts a strong password', () => {
+    expect(validatePasswordStrength('Trator-7azul', 'ana@x.com')).toEqual({ ok: true });
   });
 });
 
 describe('validateSignup', () => {
+  const STRONG = 'Trator-7azul';
   it('requires name', () => {
-    expect(validateSignup('   ', 'a@b.com', '12345678')).toEqual({ ok: false, error: 'Informe seu nome.' });
+    expect(validateSignup('   ', 'a@b.com', STRONG)).toEqual({ ok: false, field: 'name', error: 'Informe seu nome.' });
   });
-  it('rejects long name', () => {
-    expect(validateSignup('n'.repeat(121), 'a@b.com', '12345678')).toEqual({ ok: false, error: 'Nome muito longo.' });
+  it('rejects long name (reachable branch)', () => {
+    expect(validateSignup('n'.repeat(121), 'a@b.com', STRONG)).toEqual({
+      ok: false,
+      field: 'name',
+      error: 'Nome muito longo.',
+    });
   });
   it('rejects bad e-mail', () => {
-    expect(validateSignup('Ana', 'x', '12345678')).toEqual({ ok: false, error: 'Informe um e-mail válido.' });
+    expect(validateSignup('Ana', 'x', STRONG)).toEqual({ ok: false, field: 'email', error: 'Informe um e-mail válido.' });
   });
   it('rejects short password', () => {
-    expect(validateSignup('Ana', 'a@b.com', '1234567')).toEqual({ ok: false, error: 'Use pelo menos 8 caracteres.' });
+    expect(validateSignup('Ana', 'a@b.com', 'ab1')).toEqual({
+      ok: false,
+      field: 'password',
+      error: 'Use pelo menos 8 caracteres.',
+    });
+  });
+  it('rejects weak and common passwords with password field', () => {
+    expect(validateSignup('Ana', 'a@b.com', '12345678')).toMatchObject({ ok: false, field: 'password' });
+    expect(validateSignup('Ana', 'a@b.com', 'abcdefgh')).toMatchObject({ ok: false, field: 'password' });
+  });
+  it('does not truncate overlong password', () => {
+    expect(validateSignup('Ana', 'a@b.com', 'a1'.repeat(70))).toEqual({
+      ok: false,
+      field: 'password',
+      error: 'Senha muito longa.',
+    });
   });
   it('accepts valid', () => {
-    expect(validateSignup(' Ana ', 'A@B.com', '12345678')).toEqual({
+    expect(validateSignup(' Ana ', 'A@B.com', STRONG)).toEqual({
       ok: true,
       name: 'Ana',
       email: 'a@b.com',
-      password: '12345678',
+      password: STRONG,
     });
   });
 });
@@ -58,7 +104,11 @@ describe('validateNewPassword', () => {
     expect(validateNewPassword('123')).toEqual({ ok: false, error: 'Use pelo menos 8 caracteres.' });
     expect(validateNewPassword('x'.repeat(129))).toEqual({ ok: false, error: 'Senha muito longa.' });
   });
+  it('rejects weak', () => {
+    expect(validateNewPassword('12345678').ok).toBe(false);
+    expect(validateNewPassword('abcdefgh').ok).toBe(false);
+  });
   it('accepts valid', () => {
-    expect(validateNewPassword('12345678')).toEqual({ ok: true, password: '12345678' });
+    expect(validateNewPassword('Trator-7azul')).toEqual({ ok: true, password: 'Trator-7azul' });
   });
 });

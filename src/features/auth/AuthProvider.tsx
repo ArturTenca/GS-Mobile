@@ -11,14 +11,21 @@ import {
   type ReactNode,
 } from 'react';
 
-import { AUTH_MESSAGES, mapAuthError } from '@/features/auth/authErrors';
+import { AUTH_MESSAGES, isNetworkError, mapAuthError } from '@/features/auth/authErrors';
+import { clearUserScopedState } from '@/features/auth/sessionCleanup';
 import { queryClient } from '@/lib/queryClient';
-import { validateLoginCredentials, validateNewPassword, validateSignup } from '@/lib/security/validate';
+import {
+  validateLoginCredentials,
+  validateNewPassword,
+  validateSignup,
+  type SignupField,
+} from '@/lib/security/validate';
 import { supabase } from '@/lib/supabase';
 
-type ActionResult = { error: string | null };
+/** `code`: server error code (for UX decisions like the login cooldown); never shown to the user. */
+type ActionResult = { error: string | null; code?: string };
 /** `notice`: non-error follow-up for the user (e.g. "check your e-mail" after signup). */
-type SignUpResult = ActionResult & { notice?: string };
+type SignUpResult = ActionResult & { notice?: string; field?: SignupField };
 
 interface AuthContextValue {
   user: User | null;
@@ -99,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email: validation.email,
         password: validation.password,
       });
-      if (error) return { error: mapAuthError(error) };
+      if (error) return { error: mapAuthError(error), code: error.code };
       return { error: null };
     } catch {
       return { error: AUTH_MESSAGES.offline };
@@ -109,7 +116,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUp = useCallback(
     async (name: string, email: string, password: string): Promise<SignUpResult> => {
       const validation = validateSignup(name, email, password);
-      if (!validation.ok) return { error: validation.error };
+      if (!validation.ok) return { error: validation.error, field: validation.field };
       try {
         const { data, error } = await supabase.auth.signUp({
           email: validation.email,
@@ -153,7 +160,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.error('Erro ao limpar sessão local');
       }
     }
+    const previousUserId = lastUserId.current;
     setSession(null);
+    clearUserScopedState(previousUserId);
   }, []);
 
   const resetPassword = useCallback(async (email: string): Promise<ActionResult> => {
@@ -166,8 +175,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (error?.code === 'over_email_send_rate_limit') {
         return { error: AUTH_MESSAGES.emailRateLimit };
       }
+      if (error && isNetworkError(error)) return { error: AUTH_MESSAGES.offline };
+      if (error && typeof error.status === 'number' && error.status >= 500) {
+        return { error: AUTH_MESSAGES.unavailable };
+      }
+      // Anti-enumeration: any other server answer is reported as success.
     } catch {
-      // Anti-enumeration: always report success.
+      // The request never completed: do not claim a link was sent.
+      return { error: AUTH_MESSAGES.offline };
     }
     return { error: null };
   }, []);

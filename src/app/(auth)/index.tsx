@@ -12,10 +12,12 @@ import { Notice } from '@/components/ui/Notice';
 import { Tabs } from '@/components/ui/Tabs';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { useInFlightLock } from '@/features/auth/inFlightLock';
+import { shouldCountFailure } from '@/features/auth/loginCooldown';
 import { useLoginRateLimit } from '@/features/auth/useLoginRateLimit';
 import { useTheme } from '@/features/theme/ThemeProvider';
 import { INPUT_LIMITS } from '@/lib/security/limits';
-import { sanitizeEmailInput, sanitizePasswordInput, sanitizeTextField } from '@/lib/security/sanitize';
+import { sanitizeTextField, stripControlCharacters } from '@/lib/security/sanitize';
 import { validateLoginCredentials, validateSignup } from '@/lib/security/validate';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { radius, spacing } from '@/theme/tokens';
@@ -49,6 +51,8 @@ export default function AuthScreen() {
   const [formError, setFormError] = useState<string | null>(null);
   const [formNotice, setFormNotice] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const lock = useInFlightLock();
 
   const nameRef = useRef<InputRef>(null);
   const emailRef = useRef<InputRef>(null);
@@ -109,71 +113,79 @@ export default function AuthScreen() {
   }
 
   async function submit() {
-    if (disabled) return;
-    setFormError(null);
-    setFormNotice(null);
-    setFieldErrors({});
+    if (disabled || !lock.tryAcquire()) return;
+    try {
+      setFormError(null);
+      setFormNotice(null);
+      setFieldErrors({});
 
-    if (mode === 'login') {
-      const v = validateLoginCredentials(email, password);
+      if (mode === 'login') {
+        const v = validateLoginCredentials(email, password);
+        if (!v.ok) {
+          setFormError(v.error);
+          return;
+        }
+        setSubmitting(true);
+        const { error, code } = await signIn(email, password);
+        setSubmitting(false);
+        if (error) {
+          // Only wrong credentials count toward the client cooldown (offline/5xx/limits do not).
+          if (shouldCountFailure(code)) recordFailure();
+          setFormError(error);
+          return;
+        }
+        reset();
+        return;
+      }
+
+      const v = validateSignup(name, email, password);
       if (!v.ok) {
-        setFormError(v.error);
+        setFieldErrors({ [v.field]: v.error });
+        (v.field === 'name' ? nameRef : v.field === 'email' ? emailRef : passwordRef).current?.focus();
         return;
       }
       setSubmitting(true);
-      const { error } = await signIn(email, password);
+      const { error, notice } = await signUp(name, email, password);
       setSubmitting(false);
       if (error) {
-        recordFailure();
         setFormError(error);
         return;
       }
-      reset();
-      return;
+      if (notice) {
+        // Account created but the server requires e-mail confirmation: guide to login.
+        setMode('login');
+        setPassword('');
+        setFormNotice(notice);
+        return;
+      }
+      // Stack.Protected switches to the app shell once the session exists.
+    } finally {
+      setSubmitting(false);
+      lock.release();
     }
-
-    const v = validateSignup(name, email, password);
-    if (!v.ok) {
-      const next: FieldErrors = {};
-      if (v.error.includes('nome') || v.error.includes('Nome')) next.name = v.error;
-      else if (v.error.includes('e-mail')) next.email = v.error;
-      else next.password = v.error;
-      setFieldErrors(next);
-      (next.name ? nameRef : next.email ? emailRef : passwordRef).current?.focus();
-      return;
-    }
-    setSubmitting(true);
-    const { error, notice } = await signUp(name, email, password);
-    setSubmitting(false);
-    if (error) {
-      setFormError(error);
-      return;
-    }
-    if (notice) {
-      // Account created but the server requires e-mail confirmation: guide to login.
-      setMode('login');
-      setPassword('');
-      setFormNotice(notice);
-      return;
-    }
-    // Stack.Protected switches to the app shell once the session exists.
   }
 
   async function sendLink() {
-    if (submitting) return;
-    setFormError(null);
-    const target = panel === 'sent' ? sentEmail : email;
-    setSubmitting(true);
-    const { error } = await resetPassword(target);
-    setSubmitting(false);
-    if (error) {
-      setFormError(error);
-      return;
+    // Throttle holds regardless of which panel is visible (toggling panels cannot bypass it).
+    if (resendLeft > 0 || !lock.tryAcquire()) return;
+    try {
+      setFormError(null);
+      const target = panel === 'sent' ? sentEmail : email;
+      setSubmitting(true);
+      const { error } = await resetPassword(target);
+      setSubmitting(false);
+      if (error) {
+        setFormError(error);
+        return;
+      }
+      // Same confirmation whether or not the account exists (D-03, anti-enumeration).
+      setSentEmail(target.trim());
+      setResendLeft(RESEND_SECONDS);
+      setPanel('sent');
+    } finally {
+      setSubmitting(false);
+      lock.release();
     }
-    // Same confirmation whether or not the account exists (D-03, anti-enumeration).
-    setSentEmail(target.trim());
-    setResendLeft(RESEND_SECONDS);
-    setPanel('sent');
   }
 
   function backToLogin() {
@@ -188,7 +200,7 @@ export default function AuthScreen() {
       ref={emailRef}
       label="E-mail"
       value={email}
-      onChangeText={(t) => setEmail(sanitizeEmailInput(t))}
+      onChangeText={(t) => setEmail(stripControlCharacters(t))}
       error={fieldErrors.email}
       keyboardType="email-address"
       autoCapitalize="none"
@@ -228,8 +240,15 @@ export default function AuthScreen() {
                 </Text>
                 {emailField}
                 {formError ? <Notice variant="error">{formError}</Notice> : null}
-                <Button fullWidth loading={submitting} loadingLabel="Enviando…" onPress={() => void sendLink()}>
-                  Enviar link
+                <Button
+                  fullWidth
+                  loading={submitting}
+                  loadingLabel="Enviando…"
+                  disabled={resendLeft > 0}
+                  accessibilityLabel={resendLeft > 0 ? `Enviar link, aguarde ${resendLeft} segundos` : 'Enviar link'}
+                  onPress={() => void sendLink()}
+                >
+                  {resendLeft > 0 ? `Aguarde ${resendLeft}s` : 'Enviar link'}
                 </Button>
                 <Button variant="ghost" fullWidth onPress={backToLogin}>
                   Voltar para entrar
@@ -296,9 +315,9 @@ export default function AuthScreen() {
                   ref={passwordRef}
                   label="Senha"
                   value={password}
-                  onChangeText={(t) => setPassword(sanitizePasswordInput(t))}
+                  onChangeText={setPassword}
                   error={fieldErrors.password}
-                  helper={mode === 'signup' ? 'Mínimo de 8 caracteres.' : undefined}
+                  helper={mode === 'signup' ? 'Mínimo de 8 caracteres, com letras e números.' : undefined}
                   secureTextEntry
                   autoCapitalize="none"
                   autoCorrect={false}

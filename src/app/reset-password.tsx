@@ -14,10 +14,10 @@ import { LoadingState } from '@/components/ui/LoadingState';
 import { Notice } from '@/components/ui/Notice';
 import { Text } from '@/components/ui/Text';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { useInFlightLock } from '@/features/auth/inFlightLock';
 import { classifyRecoveryUrl, getRecoveryCode } from '@/features/auth/authLinks';
 import { useTheme } from '@/features/theme/ThemeProvider';
 import { INPUT_LIMITS } from '@/lib/security/limits';
-import { sanitizePasswordInput } from '@/lib/security/sanitize';
 import { validateNewPassword } from '@/lib/security/validate';
 import { supabase } from '@/lib/supabase';
 import { radius, spacing } from '@/theme/tokens';
@@ -52,6 +52,7 @@ export default function ResetPasswordScreen() {
   const [saving, setSaving] = useState(false);
   const exchangedCode = useRef<string | null>(null);
   const mounted = useRef(true);
+  const lock = useInFlightLock();
   const [pendingForgot, setPendingForgot] = useState(false);
 
   useEffect(() => {
@@ -133,30 +134,35 @@ export default function ResetPasswordScreen() {
   );
 
   async function save() {
-    if (saving) return;
-    setFormError(null);
-    setFieldError(null);
-    setConfirmError(null);
+    if (saving || !lock.tryAcquire()) return;
+    try {
+      setFormError(null);
+      setFieldError(null);
+      setConfirmError(null);
 
-    const v = validateNewPassword(password);
-    if (!v.ok) {
-      setFieldError(v.error);
-      return;
+      const v = validateNewPassword(password);
+      if (!v.ok) {
+        setFieldError(v.error);
+        return;
+      }
+      if (password !== confirm) {
+        setConfirmError('As senhas não conferem.');
+        return;
+      }
+      setSaving(true);
+      const { error } = await updatePassword(password);
+      setSaving(false);
+      if (error) {
+        setFormError(error);
+        return;
+      }
+      setPassword('');
+      setConfirm('');
+      setPhase('success');
+    } finally {
+      if (mounted.current) setSaving(false);
+      lock.release();
     }
-    if (password !== confirm) {
-      setConfirmError('As senhas não conferem.');
-      return;
-    }
-    setSaving(true);
-    const { error } = await updatePassword(password);
-    setSaving(false);
-    if (error) {
-      setFormError(error);
-      return;
-    }
-    setPassword('');
-    setConfirm('');
-    setPhase('success');
   }
 
   async function requestNewLink() {
@@ -179,9 +185,9 @@ export default function ResetPasswordScreen() {
         <Input
           label="Nova senha"
           value={password}
-          onChangeText={(t) => setPassword(sanitizePasswordInput(t))}
+          onChangeText={setPassword}
           error={fieldError}
-          helper="Mínimo de 8 caracteres."
+          helper="Mínimo de 8 caracteres, com letras e números."
           secureTextEntry
           autoCapitalize="none"
           autoCorrect={false}
@@ -194,7 +200,7 @@ export default function ResetPasswordScreen() {
         <Input
           label="Confirmar senha"
           value={confirm}
-          onChangeText={(t) => setConfirm(sanitizePasswordInput(t))}
+          onChangeText={setConfirm}
           error={confirmError}
           secureTextEntry
           autoCapitalize="none"
