@@ -187,7 +187,7 @@ export default function ResetPasswordScreen() {
           value={password}
           onChangeText={setPassword}
           error={fieldError}
-          helper="Mínimo de 8 caracteres, com letras e números."
+          helper="Mínimo de 8 caracteres, com pelo menos uma letra e um número."
           secureTextEntry
           autoCapitalize="none"
           autoCorrect={false}

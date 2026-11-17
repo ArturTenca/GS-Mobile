@@ -318,7 +318,7 @@ export default function AuthScreen() {
                   value={password}
                   onChangeText={setPassword}
                   error={fieldErrors.password}
-                  helper={mode === 'signup' ? 'Mínimo de 8 caracteres, com letras e números.' : undefined}
+                  helper={mode === 'signup' ? 'Mínimo de 8 caracteres, com pelo menos uma letra e um número.' : undefined}
                   secureTextEntry
                   autoCapitalize="none"
                   autoCorrect={false}

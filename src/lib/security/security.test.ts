@@ -81,7 +81,7 @@ describe('validateSignup', () => {
     expect(validateSignup('Ana', 'a@b.com', 'ab1')).toEqual({
       ok: false,
       field: 'password',
-      error: 'Use pelo menos 8 caracteres.',
+      error: 'A senha precisa ter no mínimo 8 caracteres.',
     });
   });
   it('rejects weak and common passwords with password field', () => {
@@ -107,12 +107,17 @@ describe('validateSignup', () => {
 
 describe('validateNewPassword', () => {
   it('rejects short and long', () => {
-    expect(validateNewPassword('123')).toEqual({ ok: false, error: 'Use pelo menos 8 caracteres.' });
+    expect(validateNewPassword('123')).toEqual({ ok: false, error: 'A senha precisa ter no mínimo 8 caracteres.' });
     expect(validateNewPassword('x'.repeat(129))).toEqual({ ok: false, error: 'Senha muito longa.' });
   });
   it('rejects weak', () => {
     expect(validateNewPassword('12345678').ok).toBe(false);
     expect(validateNewPassword('abcdefgh').ok).toBe(false);
+  });
+  it('requires at least one number and one letter, with specific messages', () => {
+    expect(validateNewPassword('Plantacao')).toEqual({ ok: false, error: 'A senha precisa ter pelo menos um número.' });
+    expect(validateNewPassword('20242025')).toEqual({ ok: false, error: 'A senha precisa ter pelo menos uma letra.' });
+    expect(validateNewPassword('Colheita7')).toEqual({ ok: true, password: 'Colheita7' });
   });
   it('accepts valid', () => {
     expect(validateNewPassword('Trator-7azul')).toEqual({ ok: true, password: 'Trator-7azul' });

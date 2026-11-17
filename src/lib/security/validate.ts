@@ -19,9 +19,11 @@ export type NewPasswordValidationResult = { ok: true; password: string } | { ok:
 export type PasswordStrengthResult = { ok: true } | { ok: false; error: string };
 
 const ERR_EMAIL = 'Informe um e-mail válido.';
-const ERR_MIN = `Use pelo menos ${INPUT_LIMITS.PASSWORD_MIN} caracteres.`;
+const ERR_MIN = `A senha precisa ter no mínimo ${INPUT_LIMITS.PASSWORD_MIN} caracteres.`;
 const ERR_LONG = 'Senha muito longa.';
-const ERR_WEAK = 'Senha fraca. Use letras e números.';
+const ERR_NO_DIGIT = 'A senha precisa ter pelo menos um número.';
+const ERR_NO_LETTER = 'A senha precisa ter pelo menos uma letra.';
+const ERR_HAS_EMAIL = 'A senha não pode conter seu e-mail.';
 const ERR_COMMON = 'Essa senha é muito comum. Escolha outra.';
 
 /** Senhas muito comuns (BR/pt-BR e globais); comparação em minúsculas. */
@@ -67,9 +69,10 @@ function cleanEmail(email: string): string {
 export function validatePasswordStrength(password: string, email?: string): PasswordStrengthResult {
   const lower = password.toLowerCase();
   if (COMMON_PASSWORDS.has(lower)) return { ok: false, error: ERR_COMMON };
-  if (!/[A-Za-zÀ-ÿ]/.test(password) || !/[0-9]/.test(password)) return { ok: false, error: ERR_WEAK };
+  if (!/[0-9]/.test(password)) return { ok: false, error: ERR_NO_DIGIT };
+  if (!/[A-Za-zÀ-ÿ]/.test(password)) return { ok: false, error: ERR_NO_LETTER };
   const local = (email ?? '').split('@')[0]?.toLowerCase() ?? '';
-  if (local.length >= 3 && lower.includes(local)) return { ok: false, error: ERR_WEAK };
+  if (local.length >= 3 && lower.includes(local)) return { ok: false, error: ERR_HAS_EMAIL };
   return { ok: true };
 }
 
