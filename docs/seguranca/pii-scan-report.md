@@ -1,6 +1,6 @@
 # Relatorio do scanner de PII
 
-Gerado em 2026-11-16T21:53:14.109Z. Arquivos varridos: 298. Achados: 86 (informativos: 0). Criticos fora da allowlist: 0.
+Gerado em 2026-11-17T01:45:26.757Z. Arquivos varridos: 298. Achados: 86 (informativos: 0). Criticos fora da allowlist: 0.
 
 Este relatorio mostra apenas arquivo, linha, regra e previa mascarada. Nenhum valor original e gravado.
 

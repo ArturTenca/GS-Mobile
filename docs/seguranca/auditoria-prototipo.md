@@ -1,6 +1,6 @@
 # Auditoria de taint do prototipo
 
-Gerado em 2026-11-16T21:53:23.591Z. Fluxos rastreados: 56 (bloqueados: 1, sanitizados: 55, inseguros: 0).
+Gerado em 2026-11-17T01:45:21.430Z. Fluxos rastreados: 56 (bloqueados: 1, sanitizados: 55, inseguros: 0).
 
 O rastreador estatico (`node scripts/taint-audit.mjs`) usa a API do compilador TypeScript sobre `src/`, propaga o dado da origem ate o destino e classifica cada fluxo. Valores reais nunca aparecem aqui: apenas arquivo, linha e nomes de simbolos.
 
