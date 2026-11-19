@@ -1,25 +1,13 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 
 import { DatabaseUnavailable } from '@/components/ui/DatabaseUnavailable';
-import { LoadingState } from '@/components/ui/LoadingState';
-import { useTheme } from '@/features/theme/ThemeProvider';
 import { checkDatabaseAvailability, isSupabaseConfigured } from '@/lib/supabase';
 
 export function DatabaseGate({ children }: { children: ReactNode }) {
-  const { colors } = useTheme();
   const [status, setStatus] = useState<'checking' | 'ok' | 'error' | 'invalid_config'>(
     isSupabaseConfigured ? 'checking' : 'error',
   );
   const [retrying, setRetrying] = useState(false);
-
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        loading: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background },
-      }),
-    [colors],
-  );
 
   const verify = useCallback(async (isRetry = false) => {
     if (isRetry) {
@@ -37,13 +25,8 @@ export function DatabaseGate({ children }: { children: ReactNode }) {
     void verify();
   }, [verify]);
 
-  if (status === 'checking') {
-    return (
-      <View style={styles.loading}>
-        <LoadingState message="Conectando ao servidor…" />
-      </View>
-    );
-  }
+  // Non-blocking: the app renders right away while the check runs in the background.
+  // Only a failed check replaces the UI (each screen already shows its own loading state).
 
   if (status === 'error') {
     if (!isSupabaseConfigured) {
