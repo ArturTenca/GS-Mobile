@@ -13,6 +13,7 @@ import {
 
 import { AUTH_MESSAGES, isNetworkError, mapAuthError } from '@/features/auth/authErrors';
 import { clearUserScopedState } from '@/features/auth/sessionCleanup';
+import { handleUserChange } from '@/features/auth/userCache';
 import { queryClient } from '@/lib/queryClient';
 import { safeLog } from '@/security/taint/sinks';
 import {
@@ -94,7 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const userId = session?.user?.id ?? null;
   useEffect(() => {
     if (lastUserId.current !== userId) {
-      queryClient.clear();
+      handleUserChange(queryClient, lastUserId.current, userId);
       lastUserId.current = userId;
     }
   }, [userId]);

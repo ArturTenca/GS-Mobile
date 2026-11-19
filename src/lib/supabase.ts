@@ -10,6 +10,22 @@ const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY?.trim() ?? '';
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
 const HEALTH_TIMEOUT_MS = 8_000;
+const REQUEST_TIMEOUT_MS = 20_000;
+
+/**
+ * Every Supabase request gets a deadline, so a stalled connection ends in an error state
+ * with "Tentar de novo" instead of an endless spinner. A caller's own abort still wins.
+ */
+export function fetchWithTimeout(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const outer = init?.signal;
+  if (outer) {
+    if (outer.aborted) controller.abort();
+    else outer.addEventListener('abort', () => controller.abort(), { once: true });
+  }
+  return fetch(input, { ...init, signal: controller.signal }).finally(() => clearTimeout(timer));
+}
 
 function createAppClient() {
   if (!isSupabaseConfigured) {
@@ -23,6 +39,7 @@ function createAppClient() {
   }
 
   return createClient(supabaseUrl, supabaseAnonKey, {
+    global: { fetch: fetchWithTimeout },
     auth: {
       storage: localStorage,
       autoRefreshToken: true,
