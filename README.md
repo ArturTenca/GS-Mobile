@@ -13,14 +13,13 @@ Aplicativo de monitoramento agrícola para o pequeno e médio produtor rural. O 
 | Campo | Conteúdo |
 | --- | --- |
 | Nome do projeto | AgroAlerta + AgroVigia |
-| Integrantes / RM | [CONFIRMAR PELA EQUIPE: nomes e RM dos integrantes] |
-| Eixo / tema / ODS | [CONFIRMAR PELA EQUIPE: eixo e ODS conforme a Ficha oficial] |
+| Integrantes / RM | Artur Alves Tenca RM 555171    João Pedro Signor Avelar RM 558375    Roger Cardoso Ferreira RM 557230
+| Turma |3ESPW |
 | Problema | O produtor rural precisa saber se a propriedade está Normal, em Atenção ou Crítica (clima, umidade do solo, temperatura) sem conhecimento técnico e sem ficar diante de um computador. |
 | Público | Pequenos e médios produtores rurais. |
 | Jornada principal do cidadão | **Consultar** (Início: condição da propriedade, clima e indicadores), **registrar** (cadastrar fazenda e sensores, definir limites) e **receber informação** (central de Alertas com filtros e status). |
 | Solução | App com painel simples de condição, alertas preventivos com recomendação, análises de risco demonstrativas e painel de privacidade. |
 | URL do repositório | https://github.com/ArturTenca/GS-Mobile |
-| Demais campos da Ficha oficial | [CONFIRMAR PELA EQUIPE: copiar da Ficha oficial do enunciado] |
 
 ## O que o app faz
 
