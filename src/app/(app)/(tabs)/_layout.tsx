@@ -5,10 +5,9 @@ import { useEffect } from 'react';
 import { TabBar } from '@/components/layout/TabBar';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { useTheme } from '@/features/theme/ThemeProvider';
-import { FARMS_STALE_TIME } from '@/hooks/useFarms';
+import { FARMS_STALE_TIME, fetchFarmsCached } from '@/hooks/useFarms';
 import { badgeLabel, usePendingAlertCount } from '@/hooks/usePendingAlertCount';
 import { useSelectedFarm } from '@/hooks/useSelectedFarm';
-import { listFarms } from '@/services/farms';
 
 export const unstable_settings = { anchor: 'index' };
 
@@ -19,7 +18,7 @@ export default function TabsLayout() {
   // Start loading farms in parallel with the producer query (same key as useFarms).
   useEffect(() => {
     if (!userId) return;
-    void queryClient.prefetchQuery({ queryKey: ['farms', userId], queryFn: listFarms, staleTime: FARMS_STALE_TIME });
+    void queryClient.prefetchQuery({ queryKey: ['farms', userId], queryFn: () => fetchFarmsCached(userId), staleTime: FARMS_STALE_TIME });
   }, [queryClient, userId]);
   const { farm } = useSelectedFarm();
   const pending = usePendingAlertCount(farm?.id);
